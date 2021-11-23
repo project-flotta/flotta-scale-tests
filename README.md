@@ -3,7 +3,11 @@ The purpose of this project is to test the scalability and performance of [k4e p
 
 ## Installation
 The test plan for testing k4e is using the [Parallel Sampling controller](https://github.com/Blazemeter/jmeter-bzm-plugins/blob/master/parallel/Parallel.md) that needs to be installed.
-Instructions for installing plugins can be found on [here](https://jmeter-plugins.org/install/Install/).
+Instructions for installing plugin-manager via command line can be found on [here](https://jmeter-plugins.org/wiki/PluginsManagerAutomated/).
+After that run 
+```bash
+$JMETER_HOME/bin/PluginsManagerCMD.sh install bzm-parallel
+```
 
 ## Running the test plan
 Before the test can be run, the test plan needs to be prepared.
