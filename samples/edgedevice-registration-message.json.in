@@ -1,0 +1,311 @@
+{
+    "DeviceID": "07b68c4e-41b0-4cb9-87ef-171766c01147",
+    "Message": {
+        "content": {
+            "hardware": {
+                "boot": {
+                    "current_boot_mode": "bios"
+                },
+                "cpu": {
+                    "architecture": "x86_64",
+                    "count": 8,
+                    "flags": [
+                        "fpu",
+                        "vme",
+                        "de",
+                        "pse",
+                        "tsc",
+                        "msr",
+                        "pae",
+                        "mce",
+                        "cx8",
+                        "apic",
+                        "sep",
+                        "mtrr",
+                        "pge",
+                        "mca",
+                        "cmov",
+                        "pat",
+                        "pse36",
+                        "clflush",
+                        "dts",
+                        "acpi",
+                        "mmx",
+                        "fxsr",
+                        "sse",
+                        "sse2",
+                        "ss",
+                        "ht",
+                        "tm",
+                        "pbe",
+                        "syscall",
+                        "nx",
+                        "pdpe1gb",
+                        "rdtscp",
+                        "lm",
+                        "constant_tsc",
+                        "art",
+                        "arch_perfmon",
+                        "pebs",
+                        "bts",
+                        "rep_good",
+                        "nopl",
+                        "xtopology",
+                        "nonstop_tsc",
+                        "cpuid",
+                        "aperfmperf",
+                        "pni",
+                        "pclmulqdq",
+                        "dtes64",
+                        "monitor",
+                        "ds_cpl",
+                        "vmx",
+                        "smx",
+                        "est",
+                        "tm2",
+                        "ssse3",
+                        "sdbg",
+                        "fma",
+                        "cx16",
+                        "xtpr",
+                        "pdcm",
+                        "pcid",
+                        "sse4_1",
+                        "sse4_2",
+                        "x2apic",
+                        "movbe",
+                        "popcnt",
+                        "tsc_deadline_timer",
+                        "aes",
+                        "xsave",
+                        "avx",
+                        "f16c",
+                        "rdrand",
+                        "lahf_lm",
+                        "abm",
+                        "3dnowprefetch",
+                        "cpuid_fault",
+                        "epb",
+                        "invpcid_single",
+                        "pti",
+                        "ssbd",
+                        "ibrs",
+                        "ibpb",
+                        "stibp",
+                        "tpr_shadow",
+                        "vnmi",
+                        "flexpriority",
+                        "ept",
+                        "vpid",
+                        "ept_ad",
+                        "fsgsbase",
+                        "tsc_adjust",
+                        "bmi1",
+                        "hle",
+                        "avx2",
+                        "smep",
+                        "bmi2",
+                        "erms",
+                        "invpcid",
+                        "rtm",
+                        "mpx",
+                        "rdseed",
+                        "adx",
+                        "smap",
+                        "clflushopt",
+                        "intel_pt",
+                        "xsaveopt",
+                        "xsavec",
+                        "xgetbv1",
+                        "xsaves",
+                        "dtherm",
+                        "ida",
+                        "arat",
+                        "pln",
+                        "pts",
+                        "hwp",
+                        "hwp_notify",
+                        "hwp_act_window",
+                        "hwp_epp",
+                        "md_clear",
+                        "flush_l1d"
+                    ],
+                    "frequency": 3600,
+                    "model_name": "Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz"
+                },
+                "disks": [
+                    {
+                        "drive_type": "SSD",
+                        "id": "/dev/dm-0",
+                        "name": "dm-0",
+                        "path": "/dev/dm-0",
+                        "size_bytes": 511032950784,
+                        "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-0\"],\"messages\":[{\"string\":\"/dev/dm-0: Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"
+                    },
+                    {
+                        "drive_type": "SSD",
+                        "id": "/dev/dm-1",
+                        "name": "dm-1",
+                        "path": "/dev/dm-1",
+                        "size_bytes": 117440512,
+                        "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-1\"],\"messages\":[{\"string\":\"/dev/dm-1: Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"
+                    },
+                    {
+                        "drive_type": "SSD",
+                        "id": "/dev/dm-10",
+                        "name": "dm-10",
+                        "path": "/dev/dm-10",
+                        "size_bytes": 6576668672,
+                        "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-10\"],\"messages\":[{\"string\":\"/dev/dm-10: Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"
+                    },
+                    {
+                        "drive_type": "SSD",
+                        "id": "/dev/dm-2",
+                        "name": "dm-2",
+                        "path": "/dev/dm-2",
+                        "size_bytes": 477232103424,
+                        "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-2\"],\"messages\":[{\"string\":\"/dev/dm-2: Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"
+                    },
+                    {
+                        "drive_type": "SSD",
+                        "id": "/dev/dm-3",
+                        "name": "dm-3",
+                        "path": "/dev/dm-3",
+                        "size_bytes": 477232103424,
+                        "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-3\"],\"messages\":[{\"string\":\"/dev/dm-3: Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"
+                    },
+                    {
+                        "drive_type": "SSD",
+                        "id": "/dev/dm-4",
+                        "name": "dm-4",
+                        "path": "/dev/dm-4",
+                        "size_bytes": 107374182400,
+                        "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-4\"],\"messages\":[{\"string\":\"/dev/dm-4: Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"
+                    },
+                    {
+                        "drive_type": "SSD",
+                        "id": "/dev/dm-5",
+                        "name": "dm-5",
+                        "path": "/dev/dm-5",
+                        "size_bytes": 16609443840,
+                        "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-5\"],\"messages\":[{\"string\":\"/dev/dm-5: Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"
+                    },
+                    {
+                        "drive_type": "SSD",
+                        "id": "/dev/dm-6",
+                        "name": "dm-6",
+                        "path": "/dev/dm-6",
+                        "size_bytes": 477232103424,
+                        "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-6\"],\"messages\":[{\"string\":\"/dev/dm-6: Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"
+                    },
+                    {
+                        "drive_type": "SSD",
+                        "id": "/dev/dm-7",
+                        "name": "dm-7",
+                        "path": "/dev/dm-7",
+                        "size_bytes": 369857921024,
+                        "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-7\"],\"messages\":[{\"string\":\"/dev/dm-7: Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"
+                    },
+                    {
+                        "drive_type": "SSD",
+                        "id": "/dev/dm-8",
+                        "name": "dm-8",
+                        "path": "/dev/dm-8",
+                        "size_bytes": 511705088,
+                        "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-8\"],\"messages\":[{\"string\":\"/dev/dm-8: Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"
+                    },
+                    {
+                        "drive_type": "SSD",
+                        "id": "/dev/dm-9",
+                        "name": "dm-9",
+                        "path": "/dev/dm-9",
+                        "size_bytes": 6576668672,
+                        "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-9\"],\"messages\":[{\"string\":\"/dev/dm-9: Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"
+                    },
+                    {
+                        "bootable": true,
+                        "by_id": "/dev/disk/by-id/nvme-eui.002538c571b05d4b",
+                        "by_path": "/dev/disk/by-path/pci-0000:3e:00.0-nvme-1",
+                        "drive_type": "SSD",
+                        "id": "/dev/disk/by-id/nvme-eui.002538c571b05d4b",
+                        "model": "SAMSUNG MZVKW512HMJP-000L7",
+                        "name": "nvme0n1",
+                        "path": "/dev/nvme0n1",
+                        "serial": "S35BNX0J505918",
+                        "size_bytes": 512110190592,
+                        "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/nvme0n1\"],\"exit_status\":0},\"device\":{\"name\":\"/dev/nvme0n1\",\"info_name\":\"/dev/nvme0n1\",\"type\":\"nvme\",\"protocol\":\"NVMe\"},\"model_name\":\"SAMSUNG MZVKW512HMJP-000L7\",\"serial_number\":\"S35BNX0J505918\",\"firmware_version\":\"7L6QCXA7\",\"nvme_pci_vendor\":{\"id\":5197,\"subsystem_id\":5197},\"nvme_ieee_oui_identifier\":9528,\"nvme_total_capacity\":512110190592,\"nvme_unallocated_capacity\":0,\"nvme_controller_id\":2,\"nvme_version\":{\"string\":\"1.2\",\"value\":66048},\"nvme_number_of_namespaces\":1,\"nvme_namespaces\":[{\"id\":1,\"size\":{\"blocks\":1000215216,\"bytes\":512110190592},\"capacity\":{\"blocks\":1000215216,\"bytes\":512110190592},\"utilization\":{\"blocks\":1000215216,\"bytes\":512110190592},\"formatted_lba_size\":512,\"eui64\":{\"oui\":9528,\"ext_id\":848015940939}}],\"user_capacity\":{\"blocks\":1000215216,\"bytes\":512110190592},\"logical_block_size\":512,\"local_time\":{\"time_t\":1637498725,\"asctime\":\"Sun Nov 21 14:45:25 2021 IST\"},\"smart_status\":{\"passed\":true,\"nvme\":{\"value\":0}},\"nvme_smart_health_information_log\":{\"critical_warning\":0,\"temperature\":27,\"available_spare\":100,\"available_spare_threshold\":10,\"percentage_used\":15,\"data_units_read\":17934599,\"data_units_written\":97148210,\"host_reads\":463356329,\"host_writes\":2453263768,\"controller_busy_time\":15671,\"power_cycles\":1517,\"power_on_hours\":11110,\"unsafe_shutdowns\":261,\"media_errors\":0,\"num_err_log_entries\":495,\"warning_temp_time\":0,\"critical_comp_time\":0,\"temperature_sensors\":[27,40]},\"temperature\":{\"current\":27},\"power_cycle_count\":1517,\"power_on_time\":{\"hours\":11110}}",
+                        "wwn": "eui.002538c571b05d4b"
+                    },
+                    {
+                        "drive_type": "SSD",
+                        "id": "/dev/zram0",
+                        "name": "zram0",
+                        "path": "/dev/zram0",
+                        "size_bytes": 4294967296,
+                        "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/zram0\"],\"messages\":[{\"string\":\"/dev/zram0: Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"
+                    }
+                ],
+                "gpus": [
+                    {
+                        "address": "0000:01:00.0",
+                        "device_id": "13b1",
+                        "name": "GM107GLM [Quadro M1000M]",
+                        "vendor": "NVIDIA Corporation",
+                        "vendor_id": "10de"
+                    }
+                ],
+                "hostname": "masayag.usersys.redhat.com",
+                "interfaces": [
+                    {
+                        "biosdevname": "em1",
+                        "flags": [
+                            "up",
+                            "broadcast",
+                            "multicast"
+                        ],
+                        "has_carrier": true,
+                        "ipv4_addresses": [
+                            "10.100.102.22/24"
+                        ],
+                        "ipv6_addresses": [],
+                        "mac_address": "54:e1:ad:30:59:12",
+                        "mtu": 1500,
+                        "name": "enp0s31f6",
+                        "product": "0x15b7",
+                        "speed_mbps": 1000,
+                        "vendor": "0x8086"
+                    },
+                    {
+                        "biosdevname": "p2p1",
+                        "flags": [
+                            "broadcast",
+                            "multicast"
+                        ],
+                        "ipv4_addresses": [],
+                        "ipv6_addresses": [],
+                        "mac_address": "0a:d8:36:b9:cf:2c",
+                        "mtu": 1500,
+                        "name": "wlp4s0",
+                        "product": "0x24f3",
+                        "vendor": "0x8086"
+                    }
+                ],
+                "memory": {
+                    "physical_bytes": 34359738368,
+                    "usable_bytes": 33084645376
+                },
+                "system_vendor": {
+                    "manufacturer": "LENOVO",
+                    "product_name": "20EQS64N0R",
+                    "serial_number": "PC0M7JT3"
+                }
+            },
+            "os_image_id": "unknown"
+        },
+        "directive": "registration",
+        "message_id": "4acd7f23-82e6-49e2-a2e3-0be7ad9c24e2",
+        "sent": "2021-11-21T14:45:25.271+02:00",
+        "type": "data",
+        "version": 1
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "content": {
+        "events": [],
+        "status": "up",
+        "time": "2021-11-21T14:48:29.763+02:00",
+        "version": "188721",
+        "workloads": null
+    },
+    "directive": "heartbeat",
+    "message_id": "${__UUID()}",
+    "sent": "2021-11-21T14:48:29.764+02:00",
+    "type": "data",
+    "version": 1
+}

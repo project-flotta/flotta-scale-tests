@@ -1,0 +1,51 @@
+{
+    "content": {
+        "events": [
+            {
+                "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc: cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50: a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50 failed to start: container state improper",
+                "reason": "Failed",
+                "type": "warn"
+            },
+            {
+                "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc: cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50: a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50 failed to start: container state improper",
+                "reason": "Failed",
+                "type": "warn"
+            },
+            {
+                "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc: cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50: a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50 failed to start: container state improper",
+                "reason": "Failed",
+                "type": "warn"
+            },
+            {
+                "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc: cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50: a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50 failed to start: container state improper",
+                "reason": "Failed",
+                "type": "warn"
+            }
+        ],
+        "status": "up",
+        "time": "2021-11-23T02:16:37.697+02:00",
+        "version": "278650",
+        "workloads": [
+            {
+                "last_data_upload": "0001-01-01T00:00:00.000Z",
+                "name": "nginx-sample2",
+                "status": "Running"
+            },
+            {
+                "last_data_upload": "0001-01-01T00:00:00.000Z",
+                "name": "nginx-sample3",
+                "status": "Created"
+            },
+            {
+                "last_data_upload": "0001-01-01T00:00:00.000Z",
+                "name": "nginx-sample1",
+                "status": "Running"
+            }
+        ]
+    },
+    "directive": "heartbeat",
+    "message_id": "${__UUID()}",
+    "sent": "2021-11-23T02:16:37.698+02:00",
+    "type": "data",
+    "version": 1
+}

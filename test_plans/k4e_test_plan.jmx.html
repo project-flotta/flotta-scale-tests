@@ -1,0 +1,811 @@
+<html xmlns:jmeter="http://jmeter.apache.org/">
+   <title>Schematic view of Test Plan</title>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <style>
+ul.tree, ul.tree ul {
+    list-style-type: none;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAKAQMAAABPHKYJAAAAA1BMVEWIiIhYZW6zAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH1ggGExMZBky19AAAAAtJREFUCNdjYMAEAAAUAAHlhrBKAAAAAElFTkSuQmCC') repeat-y;
+    margin: 0;
+    padding: 0;
+}
+ul.tree ul {
+    margin-left: 10px;
+}
+ul.tree li {
+    margin: 0;
+    padding: 0 12px;
+    line-height: 20px;
+    background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAUAQMAAACK1e4oAAAABlBMVEUAAwCIiIgd2JB2AAAAAXRSTlMAQObYZgAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YIBhQIJYVaFGwAAAARSURBVAjXY2hgQIf/GTDFGgDSkwqATqpCHAAAAABJRU5ErkJggg==') no-repeat;
+    color: #369;
+}
+ul.tree li:last-child {
+    background: #fff url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAUAQMAAACK1e4oAAAABlBMVEUAAwCIiIgd2JB2AAAAAXRSTlMAQObYZgAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YIBhQIIhs+gc8AAAAQSURBVAjXY2hgQIf/GbAAAKCTBYBUjWvCAAAAAElFTkSuQmCC') no-repeat;
+}
+</style>
+   </head>
+   <body>
+      <ul class="tree" id="tree">
+         <li><b>load test </b>
+            "K4E Test Plan" 
+            (globalVars:[
+            "HTTP_SERVER"
+            =
+            "localhost:8888"
+            ],
+            executeTearDownThreadsOnShutdown: true)
+            <br>
+            &nbsp;&nbsp;&nbsp;Comments: <i style="color:green"></i></li>
+         <li>
+            <ul>
+               <li><b>run</b>
+                  "Edge Devices" 
+                  (
+                  threads: "10000",
+                  loops: "100000",
+                  ramp-up: "1"
+                  )
+                  </li>
+               <li>
+                  <ul>
+                     <li><b>OnceOnlyController</b>
+                        "Once Only Controller - Device Registration" </li>
+                     <li>
+                        <ul>
+                           <li><b>set variables for thread</b>
+                              "Generate Device Information" 
+                              (names=[
+                              
+                              "DEVICE_ID"
+                              ,
+                              "PRODUCT_NAME"
+                              ,
+                              "SERIAL_NAME"
+                              ,
+                              "HOSTNAME"
+                              ,
+                              "MAC_ADDRESS1"
+                              ,
+                              "MAC_ADDRESS2"
+                              ],values=[
+                              
+                              "${__UUID()}"
+                              ,
+                              "${__RandomString(10,abcdefg)}"
+                              ,
+                              "${__RandomString(10,abcdefg)}"
+                              ,
+                              "${__RandomString(10,abcdefg)}.${__RandomString(5,abcdefg)}.k4e"
+                              ,
+                              "${__RandomString(2, ABCDEF0123456789)}:${__RandomString(2, ABCDEF0123456789)}:${__RandomString(2,
+                              ABCDEF0123456789)}:${__RandomString(2, ABCDEF0123456789)}:${__RandomString(2, ABCDEF0123456789)}:${__RandomString(2,
+                              ABCDEF0123456789)}"
+                              ,
+                              "${__RandomString(2, ABCDEF0123456789)}:${__RandomString(2, ABCDEF0123456789)}:${__RandomString(2,
+                              ABCDEF0123456789)}:${__RandomString(2, ABCDEF0123456789)}:${__RandomString(2, ABCDEF0123456789)}:${__RandomString(2,
+                              ABCDEF0123456789)}"
+                              ]
+                              )
+                              <br>
+                              &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">The device ID to be used for the entire scenario of a specific device and additional
+                                 device properties</i></li>
+                           <li><b>http request</b>
+                              "Device Registration HTTP Request" 
+                              (method: "POST",
+                              url: "
+                              http://${HTTP_SERVER}:${HTTP_SERVER_PORT}//api/k4e-management/v1/data/${DEVICE_ID}/out",
+                              
+                              body: "{&#xD;
+                              "content": {&#xD;
+                              "hardware": {&#xD;
+                              "boot": {&#xD;
+                              "current_boot_mode": "bios"&#xD;
+                              },&#xD;
+                              "cpu": {&#xD;
+                              "architecture": "x86_64",&#xD;
+                              "count": 8,&#xD;
+                              "flags": [&#xD;
+                              "fpu",&#xD;
+                              "vme",&#xD;
+                              "de",&#xD;
+                              "pse",&#xD;
+                              "tsc",&#xD;
+                              "msr",&#xD;
+                              "pae",&#xD;
+                              "mce",&#xD;
+                              "cx8",&#xD;
+                              "apic",&#xD;
+                              "sep",&#xD;
+                              "mtrr",&#xD;
+                              "pge",&#xD;
+                              "mca",&#xD;
+                              "cmov",&#xD;
+                              "pat",&#xD;
+                              "pse36",&#xD;
+                              "clflush",&#xD;
+                              "dts",&#xD;
+                              "acpi",&#xD;
+                              "mmx",&#xD;
+                              "fxsr",&#xD;
+                              "sse",&#xD;
+                              "sse2",&#xD;
+                              "ss",&#xD;
+                              "ht",&#xD;
+                              "tm",&#xD;
+                              "pbe",&#xD;
+                              "syscall",&#xD;
+                              "nx",&#xD;
+                              "pdpe1gb",&#xD;
+                              "rdtscp",&#xD;
+                              "lm",&#xD;
+                              "constant_tsc",&#xD;
+                              "art",&#xD;
+                              "arch_perfmon",&#xD;
+                              "pebs",&#xD;
+                              "bts",&#xD;
+                              "rep_good",&#xD;
+                              "nopl",&#xD;
+                              "xtopology",&#xD;
+                              "nonstop_tsc",&#xD;
+                              "cpuid",&#xD;
+                              "aperfmperf",&#xD;
+                              "pni",&#xD;
+                              "pclmulqdq",&#xD;
+                              "dtes64",&#xD;
+                              "monitor",&#xD;
+                              "ds_cpl",&#xD;
+                              "vmx",&#xD;
+                              "smx",&#xD;
+                              "est",&#xD;
+                              "tm2",&#xD;
+                              "ssse3",&#xD;
+                              "sdbg",&#xD;
+                              "fma",&#xD;
+                              "cx16",&#xD;
+                              "xtpr",&#xD;
+                              "pdcm",&#xD;
+                              "pcid",&#xD;
+                              "sse4_1",&#xD;
+                              "sse4_2",&#xD;
+                              "x2apic",&#xD;
+                              "movbe",&#xD;
+                              "popcnt",&#xD;
+                              "tsc_deadline_timer",&#xD;
+                              "aes",&#xD;
+                              "xsave",&#xD;
+                              "avx",&#xD;
+                              "f16c",&#xD;
+                              "rdrand",&#xD;
+                              "lahf_lm",&#xD;
+                              "abm",&#xD;
+                              "3dnowprefetch",&#xD;
+                              "cpuid_fault",&#xD;
+                              "epb",&#xD;
+                              "invpcid_single",&#xD;
+                              "pti",&#xD;
+                              "ssbd",&#xD;
+                              "ibrs",&#xD;
+                              "ibpb",&#xD;
+                              "stibp",&#xD;
+                              "tpr_shadow",&#xD;
+                              "vnmi",&#xD;
+                              "flexpriority",&#xD;
+                              "ept",&#xD;
+                              "vpid",&#xD;
+                              "ept_ad",&#xD;
+                              "fsgsbase",&#xD;
+                              "tsc_adjust",&#xD;
+                              "bmi1",&#xD;
+                              "hle",&#xD;
+                              "avx2",&#xD;
+                              "smep",&#xD;
+                              "bmi2",&#xD;
+                              "erms",&#xD;
+                              "invpcid",&#xD;
+                              "rtm",&#xD;
+                              "mpx",&#xD;
+                              "rdseed",&#xD;
+                              "adx",&#xD;
+                              "smap",&#xD;
+                              "clflushopt",&#xD;
+                              "intel_pt",&#xD;
+                              "xsaveopt",&#xD;
+                              "xsavec",&#xD;
+                              "xgetbv1",&#xD;
+                              "xsaves",&#xD;
+                              "dtherm",&#xD;
+                              "ida",&#xD;
+                              "arat",&#xD;
+                              "pln",&#xD;
+                              "pts",&#xD;
+                              "hwp",&#xD;
+                              "hwp_notify",&#xD;
+                              "hwp_act_window",&#xD;
+                              "hwp_epp",&#xD;
+                              "md_clear",&#xD;
+                              "flush_l1d"&#xD;
+                              ],&#xD;
+                              "frequency": 3600,&#xD;
+                              "model_name": "Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz"&#xD;
+                              },&#xD;
+                              "disks": [&#xD;
+                              {&#xD;
+                              "drive_type": "SSD",&#xD;
+                              "id": "/dev/dm-0",&#xD;
+                              "name": "dm-0",&#xD;
+                              "path": "/dev/dm-0",&#xD;
+                              "size_bytes": 511032950784,&#xD;
+                              "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local
+                              build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-0\"],\"messages\":[{\"string\":\"/dev/dm-0:
+                              Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"&#xD;
+                              },&#xD;
+                              {&#xD;
+                              "drive_type": "SSD",&#xD;
+                              "id": "/dev/dm-1",&#xD;
+                              "name": "dm-1",&#xD;
+                              "path": "/dev/dm-1",&#xD;
+                              "size_bytes": 117440512,&#xD;
+                              "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local
+                              build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-1\"],\"messages\":[{\"string\":\"/dev/dm-1:
+                              Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"&#xD;
+                              },&#xD;
+                              {&#xD;
+                              "drive_type": "SSD",&#xD;
+                              "id": "/dev/dm-10",&#xD;
+                              "name": "dm-10",&#xD;
+                              "path": "/dev/dm-10",&#xD;
+                              "size_bytes": 6576668672,&#xD;
+                              "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local
+                              build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-10\"],\"messages\":[{\"string\":\"/dev/dm-10:
+                              Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"&#xD;
+                              },&#xD;
+                              {&#xD;
+                              "drive_type": "SSD",&#xD;
+                              "id": "/dev/dm-2",&#xD;
+                              "name": "dm-2",&#xD;
+                              "path": "/dev/dm-2",&#xD;
+                              "size_bytes": 477232103424,&#xD;
+                              "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local
+                              build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-2\"],\"messages\":[{\"string\":\"/dev/dm-2:
+                              Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"&#xD;
+                              },&#xD;
+                              {&#xD;
+                              "drive_type": "SSD",&#xD;
+                              "id": "/dev/dm-3",&#xD;
+                              "name": "dm-3",&#xD;
+                              "path": "/dev/dm-3",&#xD;
+                              "size_bytes": 477232103424,&#xD;
+                              "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local
+                              build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-3\"],\"messages\":[{\"string\":\"/dev/dm-3:
+                              Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"&#xD;
+                              },&#xD;
+                              {&#xD;
+                              "drive_type": "SSD",&#xD;
+                              "id": "/dev/dm-4",&#xD;
+                              "name": "dm-4",&#xD;
+                              "path": "/dev/dm-4",&#xD;
+                              "size_bytes": 107374182400,&#xD;
+                              "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local
+                              build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-4\"],\"messages\":[{\"string\":\"/dev/dm-4:
+                              Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"&#xD;
+                              },&#xD;
+                              {&#xD;
+                              "drive_type": "SSD",&#xD;
+                              "id": "/dev/dm-5",&#xD;
+                              "name": "dm-5",&#xD;
+                              "path": "/dev/dm-5",&#xD;
+                              "size_bytes": 16609443840,&#xD;
+                              "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local
+                              build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-5\"],\"messages\":[{\"string\":\"/dev/dm-5:
+                              Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"&#xD;
+                              },&#xD;
+                              {&#xD;
+                              "drive_type": "SSD",&#xD;
+                              "id": "/dev/dm-6",&#xD;
+                              "name": "dm-6",&#xD;
+                              "path": "/dev/dm-6",&#xD;
+                              "size_bytes": 477232103424,&#xD;
+                              "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local
+                              build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-6\"],\"messages\":[{\"string\":\"/dev/dm-6:
+                              Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"&#xD;
+                              },&#xD;
+                              {&#xD;
+                              "drive_type": "SSD",&#xD;
+                              "id": "/dev/dm-7",&#xD;
+                              "name": "dm-7",&#xD;
+                              "path": "/dev/dm-7",&#xD;
+                              "size_bytes": 369857921024,&#xD;
+                              "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local
+                              build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-7\"],\"messages\":[{\"string\":\"/dev/dm-7:
+                              Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"&#xD;
+                              },&#xD;
+                              {&#xD;
+                              "drive_type": "SSD",&#xD;
+                              "id": "/dev/dm-8",&#xD;
+                              "name": "dm-8",&#xD;
+                              "path": "/dev/dm-8",&#xD;
+                              "size_bytes": 511705088,&#xD;
+                              "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local
+                              build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-8\"],\"messages\":[{\"string\":\"/dev/dm-8:
+                              Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"&#xD;
+                              },&#xD;
+                              {&#xD;
+                              "drive_type": "SSD",&#xD;
+                              "id": "/dev/dm-9",&#xD;
+                              "name": "dm-9",&#xD;
+                              "path": "/dev/dm-9",&#xD;
+                              "size_bytes": 6576668672,&#xD;
+                              "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local
+                              build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/dm-9\"],\"messages\":[{\"string\":\"/dev/dm-9:
+                              Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"&#xD;
+                              },&#xD;
+                              {&#xD;
+                              "bootable": true,&#xD;
+                              "by_id": "/dev/disk/by-id/nvme-eui.002538c571b05d4b",&#xD;
+                              "by_path": "/dev/disk/by-path/pci-0000:3e:00.0-nvme-1",&#xD;
+                              "drive_type": "SSD",&#xD;
+                              "id": "/dev/disk/by-id/nvme-eui.002538c571b05d4b",&#xD;
+                              "model": "SAMSUNG MZVKW512HMJP-000L7",&#xD;
+                              "name": "nvme0n1",&#xD;
+                              "path": "/dev/nvme0n1",&#xD;
+                              "serial": "S35BNX0J505918",&#xD;
+                              "size_bytes": 512110190592,&#xD;
+                              "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local
+                              build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/nvme0n1\"],\"exit_status\":0},\"device\":{\"name\":\"/dev/nvme0n1\",\"info_name\":\"/dev/nvme0n1\",\"type\":\"nvme\",\"protocol\":\"NVMe\"},\"model_name\":\"SAMSUNG
+                              MZVKW512HMJP-000L7\",\"serial_number\":\"S35BNX0J505918\",\"firmware_version\":\"7L6QCXA7\",\"nvme_pci_vendor\":{\"id\":5197,\"subsystem_id\":5197},\"nvme_ieee_oui_identifier\":9528,\"nvme_total_capacity\":512110190592,\"nvme_unallocated_capacity\":0,\"nvme_controller_id\":2,\"nvme_version\":{\"string\":\"1.2\",\"value\":66048},\"nvme_number_of_namespaces\":1,\"nvme_namespaces\":[{\"id\":1,\"size\":{\"blocks\":1000215216,\"bytes\":512110190592},\"capacity\":{\"blocks\":1000215216,\"bytes\":512110190592},\"utilization\":{\"blocks\":1000215216,\"bytes\":512110190592},\"formatted_lba_size\":512,\"eui64\":{\"oui\":9528,\"ext_id\":848015940939}}],\"user_capacity\":{\"blocks\":1000215216,\"bytes\":512110190592},\"logical_block_size\":512,\"local_time\":{\"time_t\":1637498725,\"asctime\":\"Sun
+                              Nov 21 14:45:25 2021 IST\"},\"smart_status\":{\"passed\":true,\"nvme\":{\"value\":0}},\"nvme_smart_health_information_log\":{\"critical_warning\":0,\"temperature\":27,\"available_spare\":100,\"available_spare_threshold\":10,\"percentage_used\":15,\"data_units_read\":17934599,\"data_units_written\":97148210,\"host_reads\":463356329,\"host_writes\":2453263768,\"controller_busy_time\":15671,\"power_cycles\":1517,\"power_on_hours\":11110,\"unsafe_shutdowns\":261,\"media_errors\":0,\"num_err_log_entries\":495,\"warning_temp_time\":0,\"critical_comp_time\":0,\"temperature_sensors\":[27,40]},\"temperature\":{\"current\":27},\"power_cycle_count\":1517,\"power_on_time\":{\"hours\":11110}}",&#xD;
+                              "wwn": "eui.002538c571b05d4b"&#xD;
+                              },&#xD;
+                              {&#xD;
+                              "drive_type": "SSD",&#xD;
+                              "id": "/dev/zram0",&#xD;
+                              "name": "zram0",&#xD;
+                              "path": "/dev/zram0",&#xD;
+                              "size_bytes": 4294967296,&#xD;
+                              "smart": "{\"json_format_version\":[1,0],\"smartctl\":{\"version\":[7,2],\"svn_revision\":\"5155\",\"platform_info\":\"x86_64-linux-5.13.14-100.fc33.x86_64\",\"build_info\":\"(local
+                              build)\",\"argv\":[\"smartctl\",\"--xall\",\"--json=c\",\"/dev/zram0\"],\"messages\":[{\"string\":\"/dev/zram0:
+                              Unable to detect device type\",\"severity\":\"error\"}],\"exit_status\":1}}"&#xD;
+                              }&#xD;
+                              ],&#xD;
+                              "gpus": [&#xD;
+                              {&#xD;
+                              "address": "0000:01:00.0",&#xD;
+                              "device_id": "13b1",&#xD;
+                              "name": "GM107GLM [Quadro M1000M]",&#xD;
+                              "vendor": "NVIDIA Corporation",&#xD;
+                              "vendor_id": "10de"&#xD;
+                              }&#xD;
+                              ],&#xD;
+                              "hostname": "${HOSTNAME}",&#xD;
+                              "interfaces": [&#xD;
+                              {&#xD;
+                              "biosdevname": "em1",&#xD;
+                              "flags": [&#xD;
+                              "up",&#xD;
+                              "broadcast",&#xD;
+                              "multicast"&#xD;
+                              ],&#xD;
+                              "has_carrier": true,&#xD;
+                              "ipv4_addresses": [&#xD;
+                              "10.100.102.22/24"&#xD;
+                              ],&#xD;
+                              "ipv6_addresses": [],&#xD;
+                              "mac_address": "${MAC_ADDRESS2}",&#xD;
+                              "mtu": 1500,&#xD;
+                              "name": "enp0s31f6",&#xD;
+                              "product": "0x15b7",&#xD;
+                              "speed_mbps": 1000,&#xD;
+                              "vendor": "0x8086"&#xD;
+                              },&#xD;
+                              {&#xD;
+                              "biosdevname": "p2p1",&#xD;
+                              "flags": [&#xD;
+                              "broadcast",&#xD;
+                              "multicast"&#xD;
+                              ],&#xD;
+                              "ipv4_addresses": [],&#xD;
+                              "ipv6_addresses": [],&#xD;
+                              "mac_address": "${MAC_ADDRESS2}",&#xD;
+                              "mtu": 1500,&#xD;
+                              "name": "wlp4s0",&#xD;
+                              "product": "0x24f3",&#xD;
+                              "vendor": "0x8086"&#xD;
+                              }&#xD;
+                              ],&#xD;
+                              "memory": {&#xD;
+                              "physical_bytes": 34359738368,&#xD;
+                              "usable_bytes": 33084645376&#xD;
+                              },&#xD;
+                              "system_vendor": {&#xD;
+                              "manufacturer": "LENOVO",&#xD;
+                              "product_name": "${PRODUCT_NAME}",&#xD;
+                              "serial_number": "${SERIAL_NAME}"&#xD;
+                              }&#xD;
+                              },&#xD;
+                              "os_image_id": "unknown"&#xD;
+                              },&#xD;
+                              "directive": "registration",&#xD;
+                              "message_id": "${__UUID()}",&#xD;
+                              "sent": "2021-11-21T14:45:25.271+02:00",&#xD;
+                              "type": "data",&#xD;
+                              "version": 1&#xD;
+                              }"
+                              ,
+                              upload-files: [
+                              
+                              ]
+                              )
+                              <br>
+                              &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Device Registration</i></li>
+                           <li>
+                              <ul>
+                                 <li><b>add headers</b>
+                                    "HTTP Header Manager" 
+                                    (headers:[
+                                    
+                                    {"Content-Type"=
+                                    "application/json"
+                                    ,
+                                    {"Cache-Control"=
+                                    "no-cache"
+                                    ])
+                                    </li>
+                                 <li><b>assert as</b>
+                                    "Response Assertion" <b> that (response_headers)</b><b>
+                                       contains
+                                       </b>
+                                    [
+                                    
+                                    "200 OK"
+                                    
+                                    ])
+                                    <br>
+                                    &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Verify device was created successfully</i></li>
+                              </ul>
+                           </li>
+                        </ul>
+                     </li>
+                     <li><b>OnceOnlyController</b>
+                        "Once Only Controller - Device Labelling" </li>
+                     <li>
+                        <ul>
+                           <li><b>http request</b>
+                              "Label Device HTTP Request" 
+                              (method: "PATCH",
+                              url: "
+                              https://${OCP_API_SERVER}:${OCP_API_PORT}//apis/management.k4e.io/v1alpha1/namespaces/${NAMESPACE}/edgedevices/${DEVICE_ID}",
+                              
+                              body: "{&#xD;
+                              "metadata": {&#xD;
+                              "labels": {&#xD;
+                              "${LABEL_NAME}": "${DEVICE_ID}"&#xD;
+                              }&#xD;
+                              }&#xD;
+                              }"
+                              ,
+                              upload-files: [
+                              
+                              ]
+                              )
+                              <br>
+                              &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Label device with 'region=emea'</i></li>
+                           <li>
+                              <ul>
+                                 <li><b>add headers</b>
+                                    "HTTP Header Manager" 
+                                    (headers:[
+                                    
+                                    {"Content-Type"=
+                                    "application/merge-patch+json"
+                                    ,
+                                    {"Cache-Control"=
+                                    "no-cache"
+                                    ,
+                                    {"Authorization"=
+                                    "Bearer ${K8S_BEARER_TOKEN}"
+                                    ])
+                                    </li>
+                                 <li><b>DebugPostProcessor</b>
+                                    "Debug PostProcessor" </li>
+                              </ul>
+                           </li>
+                        </ul>
+                     </li>
+                     <li><b>LoopController</b>
+                        "Loop Controller - Create EdgeDeployments" </li>
+                     <li>
+                        <ul>
+                           <li><b>CounterConfig</b>
+                              "NameSuffix Countre" </li>
+                           <li><b>http request</b>
+                              "HTTP Request - Create Edge Deployment" 
+                              (method: "POST",
+                              url: "
+                              https://${OCP_API_SERVER}:${OCP_API_PORT}//apis/management.k4e.io/v1alpha1/namespaces/${NAMESPACE}/edgedeployments",
+                              
+                              body: "{&#xD;
+                              "apiVersion": "management.k4e.io/v1alpha1",&#xD;
+                              "kind": "EdgeDeployment",&#xD;
+                              "metadata": {&#xD;
+                              "name": "${DEVICE_ID}-${NameSuffix}",&#xD;
+                              "namespace": "default"&#xD;
+                              },&#xD;
+                              "spec": {&#xD;
+                              "data": {&#xD;
+                              "paths": [&#xD;
+                              {&#xD;
+                              "source": ".",&#xD;
+                              "target": "nginx"&#xD;
+                              }&#xD;
+                              ]&#xD;
+                              },&#xD;
+                              "deviceSelector": {&#xD;
+                              "matchLabels": {&#xD;
+                              "${LABEL_NAME}": "${DEVICE_ID}"&#xD;
+                              }&#xD;
+                              },&#xD;
+                              "pod": {&#xD;
+                              "spec": {&#xD;
+                              "containers": [&#xD;
+                              {&#xD;
+                              "image": "docker.io/nginx:1.14.2",&#xD;
+                              "name": "nginx",&#xD;
+                              "ports": [&#xD;
+                              {&#xD;
+                              "containerPort": 80,&#xD;
+                              "hostPort": 9090,&#xD;
+                              "protocol": "TCP"&#xD;
+                              }&#xD;
+                              ]&#xD;
+                              }&#xD;
+                              ]&#xD;
+                              }&#xD;
+                              },&#xD;
+                              "type": "pod"&#xD;
+                              }&#xD;
+                              }"
+                              ,
+                              upload-files: [
+                              
+                              ]
+                              )
+                              <br>
+                              &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Create Edge Deployment with labels matching for device</i></li>
+                           <li>
+                              <ul>
+                                 <li><b>add headers</b>
+                                    "HTTP Header Manager" 
+                                    (headers:[
+                                    
+                                    {"Content-Type"=
+                                    "application/json"
+                                    ,
+                                    {"Cache-Control"=
+                                    "no-cache"
+                                    ,
+                                    {"Authorization"=
+                                    "Bearer ${K8S_BEARER_TOKEN}"
+                                    ])
+                                    </li>
+                                 <li><b>DebugPostProcessor</b>
+                                    "Debug PostProcessor" </li>
+                              </ul>
+                           </li>
+                        </ul>
+                     </li>
+                     <li><b>com.blazemeter.jmeter.controller.ParallelSampler</b>
+                        "Parallel Controller" </li>
+                     <li>
+                        <ul>
+                           <li><b>LoopController</b>
+                              "Get Updates for Edge Device - Loop Controller" </li>
+                           <li>
+                              <ul>
+                                 <li><b>http request</b>
+                                    "Get Updates HTTP Request" 
+                                    (method: "GET",
+                                    url: "
+                                    http://${HTTP_SERVER}:${HTTP_SERVER_PORT}//api/k4e-management/v1/data/${DEVICE_ID}/in",
+                                    
+                                    body: [
+                                    
+                                    ]
+                                    ,
+                                    upload-files: [
+                                    
+                                    ]
+                                    )
+                                    </li>
+                                 <li><b>think-time Constant</b>
+                                    "Get Updates Constant Timer" 
+                                    (const:15 * 1000ms)
+                                    <br>
+                                    &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Add delays between Get Updates requests</i></li>
+                              </ul>
+                           </li>
+                           <li><b>LoopController</b>
+                              "Send Heartbeats - Loop Controller" </li>
+                           <li>
+                              <ul>
+                                 <li><b>think-time Constant</b>
+                                    "Send Heartbeats Constant Timer" 
+                                    (const:60 * 1000ms)
+                                    <br>
+                                    &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Add delays between Heartbeats requests</i></li>
+                                 <li><b>http request</b>
+                                    "Send Heartbeats HTTP Request" 
+                                    (method: "POST",
+                                    url: "
+                                    http://${HTTP_SERVER}:${HTTP_SERVER_PORT}//api/k4e-management/v1/data/${DEVICE_ID}/out",
+                                    
+                                    body: "{&#xD;
+                                    "content": {&#xD;
+                                    "events": [&#xD;
+                                    {&#xD;
+                                    "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc:
+                                    cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error
+                                    starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50:
+                                    a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50
+                                    failed to start: container state improper",&#xD;
+                                    "reason": "Failed",&#xD;
+                                    "type": "warn"&#xD;
+                                    },&#xD;
+                                    {&#xD;
+                                    "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc:
+                                    cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error
+                                    starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50:
+                                    a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50
+                                    failed to start: container state improper",&#xD;
+                                    "reason": "Failed",&#xD;
+                                    "type": "warn"&#xD;
+                                    },&#xD;
+                                    {&#xD;
+                                    "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc:
+                                    cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error
+                                    starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50:
+                                    a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50
+                                    failed to start: container state improper",&#xD;
+                                    "reason": "Failed",&#xD;
+                                    "type": "warn"&#xD;
+                                    },&#xD;
+                                    {&#xD;
+                                    "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc:
+                                    cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error
+                                    starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50:
+                                    a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50
+                                    failed to start: container state improper",&#xD;
+                                    "reason": "Failed",&#xD;
+                                    "type": "warn"&#xD;
+                                    }&#xD;
+                                    ],&#xD;
+                                    "status": "up",&#xD;
+                                    "time": "2021-11-23T02:16:37.697+02:00",&#xD;
+                                    "version": "278650",&#xD;
+                                    "workloads": [&#xD;
+                                    {&#xD;
+                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                                    "name": "${DEVICE_ID}-1",&#xD;
+                                    "status": "Running"&#xD;
+                                    },&#xD;
+                                    {&#xD;
+                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                                    "name": "${DEVICE_ID}-2",&#xD;
+                                    "status": "Created"&#xD;
+                                    },&#xD;
+                                    {&#xD;
+                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                                    "name": "${DEVICE_ID}-3",&#xD;
+                                    "status": "Running"&#xD;
+                                    },&#xD;
+                                    {&#xD;
+                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                                    "name": "${DEVICE_ID}-4",&#xD;
+                                    "status": "Created"&#xD;
+                                    },&#xD;
+                                    {&#xD;
+                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                                    "name": "${DEVICE_ID}-5",&#xD;
+                                    "status": "Running"&#xD;
+                                    },&#xD;
+                                    {&#xD;
+                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                                    "name": "${DEVICE_ID}-6",&#xD;
+                                    "status": "Created"&#xD;
+                                    },&#xD;
+                                    {&#xD;
+                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                                    "name": "${DEVICE_ID}-7",&#xD;
+                                    "status": "Running"&#xD;
+                                    },&#xD;
+                                    {&#xD;
+                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                                    "name": "${DEVICE_ID}-8",&#xD;
+                                    "status": "Created"&#xD;
+                                    },&#xD;
+                                    {&#xD;
+                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                                    "name": "${DEVICE_ID}-9",&#xD;
+                                    "status": "Running"&#xD;
+                                    }&#xD;
+                                    ]&#xD;
+                                    },&#xD;
+                                    "directive": "heartbeat",&#xD;
+                                    "message_id": "${__UUID()}",&#xD;
+                                    "type": "data",&#xD;
+                                    "version": 1&#xD;
+                                    }"
+                                    ,
+                                    upload-files: [
+                                    
+                                    ]
+                                    )
+                                    <br>
+                                    &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Send Heartbeats</i></li>
+                                 <li>
+                                    <ul>
+                                       <li><b>add headers</b>
+                                          "HTTP Header Manager" 
+                                          (headers:[
+                                          
+                                          {"content-type"=
+                                          "application/json"
+                                          ])
+                                          </li>
+                                    </ul>
+                                 </li>
+                              </ul>
+                           </li>
+                        </ul>
+                     </li>
+                  </ul>
+               </li>
+               <li><b>write samples</b>
+                  "View Results in Table" <del>(disabled)</del>&nbsp;
+                  </li>
+               <li><b>write samples</b>
+                  "View Results Tree" <del>(disabled)</del>&nbsp;
+                  </li>
+               <li><b>set variables for thread</b>
+                  "User Parameters" 
+                  (names=[
+                  
+                  "HTTP_SERVER"
+                  ,
+                  "HTTP_SERVER_PORT"
+                  ,
+                  "OCP_API_SERVER"
+                  ,
+                  "OCP_API_PORT"
+                  ,
+                  "K8S_BEARER_TOKEN"
+                  ,
+                  "LABEL_NAME"
+                  ,
+                  "LABEL_VALUE"
+                  ,
+                  "NAMESPACE"
+                  ],values=[
+                  
+                  "localhost"
+                  ,
+                  "8888"
+                  ,
+                  "192.168.49.2"
+                  ,
+                  "8443"
+                  ,
+                  "eyJhbGciOiJSUzI1NiIsImtpZCI6IjVCUV9WTkxGQktodTFLY1VBT2JTNXBkcGRtR3dxOGNzd1NVVjFrbGk5Q1UifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6Ims0ZS1zY2FsZS10b2tlbi1yYmw3dyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJrNGUtc2NhbGUiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiIyNDE3ZjRhYS1iOGVjLTRkNTAtOWY1Yi1kY2RiZjYxNTllMjMiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDprNGUtc2NhbGUifQ.lyaSjLHFXTRHWGnhh1FwO4lgPNa_5VW0E3GuAVPt9AAabzorq3_vIDDSbxugVsEy4-pHZC3CGS0AQiV2qrYaU24a67AICeMJjHrliKd3rx2Fqcrq76W3aaICXC8Cp7l868Xvoj2bgvAup0VFjBd-KeNtT_oDJmO1kiXsg_6nnjOLLC6yqPUUG_Zs9rD2IgWeUEJ5AV4-6bqp36zhm6qeE3B_n7Zh3z3Zk2wkrOhtTtfT0bGGnVXSANRO9PW8Uj5i4MYKkkp3DoxUISGLvcDOdVgyu6Gi8VtA2EgIW9edtF1oVIpQUUOEqDdc4bqgKxy9KxPAAUySoIq75Sn4hOVjig"
+                  ,
+                  "region"
+                  ,
+                  "emea"
+                  ,
+                  "default"
+                  ]
+                  )
+                  </li>
+            </ul>
+         </li>
+      </ul>
+   </body>
+</html>
