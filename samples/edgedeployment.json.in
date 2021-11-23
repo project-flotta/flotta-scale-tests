@@ -1,0 +1,40 @@
+{
+    "apiVersion": "management.k4e.io/v1alpha1",
+    "kind": "EdgeDeployment",
+        "name": "${DEPLOYMENT_NAME}-${DEPLOYMENT_SUFFIX}",
+        "namespace": "${NAMESPACE}",
+    },
+    "spec": {
+        "data": {
+            "paths": [
+                {
+                    "source": ".",
+                    "target": "nginx"
+                }
+            ]
+        },
+        "deviceSelector": {
+            "matchLabels": {
+                "${LABEL_NAME}": "${LABEL_VALUE}"
+            }
+        },
+        "pod": {
+            "spec": {
+                "containers": [
+                    {
+                        "image": "docker.io/nginx:1.14.2",
+                        "name": "nginx",
+                        "ports": [
+                            {
+                                "containerPort": 80,
+                                "hostPort": 9090,
+                                "protocol": "TCP"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "type": "pod"
+    }
+}
