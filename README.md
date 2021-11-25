@@ -1,14 +1,6 @@
 # k4e-scale
 The purpose of this project is to test the scalability and performance of [k4e project](https://github.com/jakub-dzon/k4e-operator) using [JMeter](https://jmeter.apache.org).
 
-## Installation
-The test plan for testing k4e is using the [Parallel Sampling controller](https://github.com/Blazemeter/jmeter-bzm-plugins/blob/master/parallel/Parallel.md) that needs to be installed.
-Instructions for installing plugin-manager via command line can be found on [here](https://jmeter-plugins.org/wiki/PluginsManagerAutomated/).
-After that run 
-```bash
-$JMETER_HOME/bin/PluginsManagerCMD.sh install bzm-parallel
-```
-
 ## Running the test plan
 Before the test can be run, the test plan needs to be prepared.
 The following parameters need to be set:
@@ -18,6 +10,7 @@ The following parameters need to be set:
 * OCP_API_SERVER - K8S API server address
 * OCP_API_SERVER_PORT - K8S API server port (default: 8443)
 * NAMESPACE - K4E namespaces aren't supported yet, so the test will be run in the default namespace
+* DEPLOYMENTS_PER_DEVICE - number of deployments per device (default: 10)
 
 After the test plan is prepared, the test can be run:
 ```bash
