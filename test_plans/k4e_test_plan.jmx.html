@@ -50,8 +50,6 @@ ul.tree li:last-child {
                   ,
                   "OCP_API_PORT"
                   ,
-                  "K8S_BEARER_TOKEN"
-                  ,
                   "LABEL_NAME"
                   ,
                   "LABEL_VALUE"
@@ -69,8 +67,6 @@ ul.tree li:last-child {
                   ,
                   "6443"
                   ,
-                  "eyJhbGciOiJSUzI1NiIsImtpZCI6ImdXMzEycHNPMWZydkpueWszVUZVX09KRkt3M2lTVlljYUtqSzFWYlFReXMifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6Ims0ZS1zY2FsZS10ZXN0LXRva2VuLTc0N2JjIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6Ims0ZS1zY2FsZS10ZXN0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiYzVhNjU1ZTYtZWFiNy00ZjYwLTlmZDAtNmY4M2FmZWExOWYyIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmRlZmF1bHQ6azRlLXNjYWxlLXRlc3QifQ.SlisW9Q7w7d3NBcJI0KK4bYVAcI6HD4LT67xB3BvAZXOrzw21JPfsgx4w92O-Ni0jq_dVu-Oiq99iOi2hU_Z5RxNdfO2LWLwRSxvgEOxao5ONL4FFqkN0yI8b_E73fv9XFzw9fWv8DstH43ZErLDg5ZKtvIMcz-0_8v364oihD1dBWfjsDvj1bGsOLpPaZf39fEnOqzMV8BGKPzF-8iuCbHtjTnVmGqkxHzwBwkEfH1ByJOeP2cev5azamj65rsWfX9ueHEZWIXED5QHFOuVdhk0gfdlYDC2SEnP8QjwVYCeuaR_vEK1qmcDKOW1HJnYha-CARwqDJ4sAuZt94wG4IPsxXsdf_845a6769hhKzJOEA9c_dbF1WaptX6ASmJiL_9-azpKskOkIFAlFsT5--feHcs-jvgq9oFkt53qfWmQ3B5LtnmzRS47wkSxBSoM9olcCIOYPKjYZ_B25lcm_o6LSaPJkLNWOa7v4mXTSlSx6RmooPTRvUSKmbBduR9HakRskX1eGr2MgppNtV2eUGl1Hp-LOp8eBfgJ4k2P4KG19g2MMfwMSsVNKtb06dgTNt5no_hI5aNqDbVqyIH-XxnBKLRrgiNkyPjQc1uzgW1orL7BCrfoiqTKElN92XAPOv6Ss2i3SNJAkyTlV4imS523y_Qk0A_d_maHy1QSu_g"
-                  ,
                   "region"
                   ,
                   "emea"
@@ -85,8 +81,8 @@ ul.tree li:last-child {
                   "Edge Devices" 
                   (
                   threads: "10000",
-                  loops: "60",
-                  ramp-up: "600"
+                  loops: "120",
+                  ramp-up: "2000"
                   )
                   </li>
                <li>
@@ -545,7 +541,7 @@ ul.tree li:last-child {
                                     "no-cache"
                                     ,
                                     {"Authorization"=
-                                    "Bearer ${K8S_BEARER_TOKEN}"
+                                    "Bearer ${__P(K8S_BEARER_TOKEN)}"
                                     ])
                                     </li>
                                  <li><b>DebugPostProcessor</b>
@@ -631,7 +627,7 @@ ul.tree li:last-child {
                                           "no-cache"
                                           ,
                                           {"Authorization"=
-                                          "Bearer ${K8S_BEARER_TOKEN}"
+                                          "Bearer ${__P(K8S_BEARER_TOKEN)} "
                                           ])
                                           </li>
                                        <li><b>DebugPostProcessor</b>

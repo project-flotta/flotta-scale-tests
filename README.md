@@ -14,7 +14,8 @@ The following parameters need to be set:
 
 After the test plan is prepared, the test can be run:
 ```bash
-JVM_ARGS="-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m" $JMETER_HOME/bin/jmeter.sh -n -t ./test_plans/k4e_test_plan.jmx -l results.csv -e
+K8S_BEARER_TOKEN=<K8s bearer token> # see details below on how to create a privileged token
+JVM_ARGS="-Xms1g -Xmx16g -XX:MaxMetaspaceSize=512m" $JMETER_HOME/bin/jmeter.sh -n -t ./test_plans/k4e_test_plan.jmx -l results.csv -e -JK8S_BEARER_TOKEN=$K8S_BEARER_TOKEN
 ```
 
 ## Test Plan
@@ -42,5 +43,5 @@ EOF
 kubectl create clusterrolebinding k4e-scale-test-cluster-admin --clusterrole=cluster-admin --serviceaccount=default:k4e-scale-test
 
 # Get the token
-kubectl get secret $(kubectl get serviceaccount k4e-scale-test -o json | jq -r '.secrets[].name') -o yaml | grep " token:" | awk {'print $2'} |  base64 -d
+K8S_BEARER_TOKEN=$(kubectl get secret $(kubectl get serviceaccount k4e-scale-test -o json | jq -r '.secrets[].name') -o yaml | grep " token:" | awk {'print $2'} |  base64 -d)
 ```

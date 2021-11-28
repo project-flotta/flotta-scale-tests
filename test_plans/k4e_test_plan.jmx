@@ -24,19 +24,17 @@
           <stringProp name="-1031304506">HTTP_SERVER_PORT</stringProp>
           <stringProp name="-161397685">OCP_API_SERVER</stringProp>
           <stringProp name="504779657">OCP_API_PORT</stringProp>
-          <stringProp name="978538363">K8S_BEARER_TOKEN</stringProp>
           <stringProp name="-1135032042">LABEL_NAME</stringProp>
           <stringProp name="-818867162">LABEL_VALUE</stringProp>
           <stringProp name="-256154309">NAMESPACE</stringProp>
           <stringProp name="-671461751">DEPLOYMENTS_PER_DEVICE</stringProp>
         </collectionProp>
         <collectionProp name="UserParameters.thread_values">
-          <collectionProp name="-304313667">
+          <collectionProp name="-491084931">
             <stringProp name="-1384578503">k4e-operator-controller-manager-k4e-operator-system.apps.mycluster.redhat.com</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="1593124977">api.mycluster.redhat.com</stringProp>
             <stringProp name="1660349">6443</stringProp>
-            <stringProp name="723161639">eyJhbGciOiJSUzI1NiIsImtpZCI6ImdXMzEycHNPMWZydkpueWszVUZVX09KRkt3M2lTVlljYUtqSzFWYlFReXMifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6Ims0ZS1zY2FsZS10ZXN0LXRva2VuLTc0N2JjIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6Ims0ZS1zY2FsZS10ZXN0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiYzVhNjU1ZTYtZWFiNy00ZjYwLTlmZDAtNmY4M2FmZWExOWYyIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmRlZmF1bHQ6azRlLXNjYWxlLXRlc3QifQ.SlisW9Q7w7d3NBcJI0KK4bYVAcI6HD4LT67xB3BvAZXOrzw21JPfsgx4w92O-Ni0jq_dVu-Oiq99iOi2hU_Z5RxNdfO2LWLwRSxvgEOxao5ONL4FFqkN0yI8b_E73fv9XFzw9fWv8DstH43ZErLDg5ZKtvIMcz-0_8v364oihD1dBWfjsDvj1bGsOLpPaZf39fEnOqzMV8BGKPzF-8iuCbHtjTnVmGqkxHzwBwkEfH1ByJOeP2cev5azamj65rsWfX9ueHEZWIXED5QHFOuVdhk0gfdlYDC2SEnP8QjwVYCeuaR_vEK1qmcDKOW1HJnYha-CARwqDJ4sAuZt94wG4IPsxXsdf_845a6769hhKzJOEA9c_dbF1WaptX6ASmJiL_9-azpKskOkIFAlFsT5--feHcs-jvgq9oFkt53qfWmQ3B5LtnmzRS47wkSxBSoM9olcCIOYPKjYZ_B25lcm_o6LSaPJkLNWOa7v4mXTSlSx6RmooPTRvUSKmbBduR9HakRskX1eGr2MgppNtV2eUGl1Hp-LOp8eBfgJ4k2P4KG19g2MMfwMSsVNKtb06dgTNt5no_hI5aNqDbVqyIH-XxnBKLRrgiNkyPjQc1uzgW1orL7BCrfoiqTKElN92XAPOv6Ss2i3SNJAkyTlV4imS523y_Qk0A_d_maHy1QSu_g</stringProp>
             <stringProp name="-934795532">region</stringProp>
             <stringProp name="3116868">emea</stringProp>
             <stringProp name="1544803905">default</stringProp>
@@ -47,17 +45,17 @@
       </UserParameters>
       <hashTree/>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Edge Devices" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">60</stringProp>
+          <stringProp name="LoopController.loops">120</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">10000</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">600</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">2000</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
       </ThreadGroup>
       <hashTree>
         <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Once Only Controller - Device Registration" enabled="true"/>
@@ -493,7 +491,7 @@
                 </elementProp>
                 <elementProp name="" elementType="Header">
                   <stringProp name="Header.name">Authorization</stringProp>
-                  <stringProp name="Header.value">Bearer ${K8S_BEARER_TOKEN}</stringProp>
+                  <stringProp name="Header.value">Bearer ${__P(K8S_BEARER_TOKEN)}</stringProp>
                 </elementProp>
               </collectionProp>
             </HeaderManager>
@@ -604,7 +602,7 @@
                   </elementProp>
                   <elementProp name="" elementType="Header">
                     <stringProp name="Header.name">Authorization</stringProp>
-                    <stringProp name="Header.value">Bearer ${K8S_BEARER_TOKEN}</stringProp>
+                    <stringProp name="Header.value">Bearer ${__P(K8S_BEARER_TOKEN)} </stringProp>
                   </elementProp>
                 </collectionProp>
               </HeaderManager>
