@@ -38,12 +38,55 @@ ul.tree li:last-child {
             &nbsp;&nbsp;&nbsp;Comments: <i style="color:green"></i></li>
          <li>
             <ul>
+               <li><b>set variables for thread</b>
+                  "User Parameters" 
+                  (names=[
+                  
+                  "HTTP_SERVER"
+                  ,
+                  "HTTP_SERVER_PORT"
+                  ,
+                  "OCP_API_SERVER"
+                  ,
+                  "OCP_API_PORT"
+                  ,
+                  "K8S_BEARER_TOKEN"
+                  ,
+                  "LABEL_NAME"
+                  ,
+                  "LABEL_VALUE"
+                  ,
+                  "NAMESPACE"
+                  ,
+                  "DEPLOYMENTS_PER_DEVICE"
+                  ],values=[
+                  
+                  "k4e-operator-controller-manager-k4e-operator-system.apps.mycluster.redhat.com"
+                  ,
+                  ""
+                  ,
+                  "api.mycluster.redhat.com"
+                  ,
+                  "6443"
+                  ,
+                  "eyJhbGciOiJSUzI1NiIsImtpZCI6ImdXMzEycHNPMWZydkpueWszVUZVX09KRkt3M2lTVlljYUtqSzFWYlFReXMifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6Ims0ZS1zY2FsZS10ZXN0LXRva2VuLTc0N2JjIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6Ims0ZS1zY2FsZS10ZXN0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiYzVhNjU1ZTYtZWFiNy00ZjYwLTlmZDAtNmY4M2FmZWExOWYyIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmRlZmF1bHQ6azRlLXNjYWxlLXRlc3QifQ.SlisW9Q7w7d3NBcJI0KK4bYVAcI6HD4LT67xB3BvAZXOrzw21JPfsgx4w92O-Ni0jq_dVu-Oiq99iOi2hU_Z5RxNdfO2LWLwRSxvgEOxao5ONL4FFqkN0yI8b_E73fv9XFzw9fWv8DstH43ZErLDg5ZKtvIMcz-0_8v364oihD1dBWfjsDvj1bGsOLpPaZf39fEnOqzMV8BGKPzF-8iuCbHtjTnVmGqkxHzwBwkEfH1ByJOeP2cev5azamj65rsWfX9ueHEZWIXED5QHFOuVdhk0gfdlYDC2SEnP8QjwVYCeuaR_vEK1qmcDKOW1HJnYha-CARwqDJ4sAuZt94wG4IPsxXsdf_845a6769hhKzJOEA9c_dbF1WaptX6ASmJiL_9-azpKskOkIFAlFsT5--feHcs-jvgq9oFkt53qfWmQ3B5LtnmzRS47wkSxBSoM9olcCIOYPKjYZ_B25lcm_o6LSaPJkLNWOa7v4mXTSlSx6RmooPTRvUSKmbBduR9HakRskX1eGr2MgppNtV2eUGl1Hp-LOp8eBfgJ4k2P4KG19g2MMfwMSsVNKtb06dgTNt5no_hI5aNqDbVqyIH-XxnBKLRrgiNkyPjQc1uzgW1orL7BCrfoiqTKElN92XAPOv6Ss2i3SNJAkyTlV4imS523y_Qk0A_d_maHy1QSu_g"
+                  ,
+                  "region"
+                  ,
+                  "emea"
+                  ,
+                  "default"
+                  ,
+                  "10"
+                  ]
+                  )
+                  </li>
                <li><b>run</b>
                   "Edge Devices" 
                   (
                   threads: "10000",
-                  loops: "100000",
-                  ramp-up: "1"
+                  loops: "60",
+                  ramp-up: "600"
                   )
                   </li>
                <li>
@@ -511,228 +554,62 @@ ul.tree li:last-child {
                            </li>
                         </ul>
                      </li>
-                     <li><b>LoopController</b>
-                        "Loop Controller - Create EdgeDeployments" </li>
-                     <li>
-                        <ul>
-                           <li><b>CounterConfig</b>
-                              "NameSuffix Countre" </li>
-                           <li><b>http request</b>
-                              "HTTP Request - Create Edge Deployment" 
-                              (method: "POST",
-                              url: "
-                              https://${OCP_API_SERVER}:${OCP_API_PORT}//apis/management.k4e.io/v1alpha1/namespaces/${NAMESPACE}/edgedeployments",
-                              
-                              body: "{&#xD;
-                              "apiVersion": "management.k4e.io/v1alpha1",&#xD;
-                              "kind": "EdgeDeployment",&#xD;
-                              "metadata": {&#xD;
-                              "name": "${DEVICE_ID}-${NameSuffix}",&#xD;
-                              "namespace": "default"&#xD;
-                              },&#xD;
-                              "spec": {&#xD;
-                              "data": {&#xD;
-                              "paths": [&#xD;
-                              {&#xD;
-                              "source": ".",&#xD;
-                              "target": "nginx"&#xD;
-                              }&#xD;
-                              ]&#xD;
-                              },&#xD;
-                              "deviceSelector": {&#xD;
-                              "matchLabels": {&#xD;
-                              "${LABEL_NAME}": "${DEVICE_ID}"&#xD;
-                              }&#xD;
-                              },&#xD;
-                              "pod": {&#xD;
-                              "spec": {&#xD;
-                              "containers": [&#xD;
-                              {&#xD;
-                              "image": "docker.io/nginx:1.14.2",&#xD;
-                              "name": "nginx",&#xD;
-                              "ports": [&#xD;
-                              {&#xD;
-                              "containerPort": 80,&#xD;
-                              "hostPort": 9090,&#xD;
-                              "protocol": "TCP"&#xD;
-                              }&#xD;
-                              ]&#xD;
-                              }&#xD;
-                              ]&#xD;
-                              }&#xD;
-                              },&#xD;
-                              "type": "pod"&#xD;
-                              }&#xD;
-                              }"
-                              ,
-                              upload-files: [
-                              
-                              ]
-                              )
-                              <br>
-                              &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Create Edge Deployment with labels matching for device</i></li>
-                           <li>
-                              <ul>
-                                 <li><b>add headers</b>
-                                    "HTTP Header Manager" 
-                                    (headers:[
-                                    
-                                    {"Content-Type"=
-                                    "application/json"
-                                    ,
-                                    {"Cache-Control"=
-                                    "no-cache"
-                                    ,
-                                    {"Authorization"=
-                                    "Bearer ${K8S_BEARER_TOKEN}"
-                                    ])
-                                    </li>
-                                 <li><b>DebugPostProcessor</b>
-                                    "Debug PostProcessor" </li>
-                              </ul>
-                           </li>
-                        </ul>
-                     </li>
-                     <li><b>com.blazemeter.jmeter.controller.ParallelSampler</b>
-                        "Parallel Controller" </li>
+                     <li><b>OnceOnlyController</b>
+                        "Once Only Controller - Create EdgeDeployments" </li>
                      <li>
                         <ul>
                            <li><b>LoopController</b>
-                              "Get Updates for Edge Device - Loop Controller" </li>
+                              "Loop Controller - Create EdgeDeployments" </li>
                            <li>
                               <ul>
+                                 <li><b>CounterConfig</b>
+                                    "NameSuffix Countre" </li>
                                  <li><b>http request</b>
-                                    "Get Updates HTTP Request" 
-                                    (method: "GET",
-                                    url: "
-                                    http://${HTTP_SERVER}:${HTTP_SERVER_PORT}//api/k4e-management/v1/data/${DEVICE_ID}/in",
-                                    
-                                    body: [
-                                    
-                                    ]
-                                    ,
-                                    upload-files: [
-                                    
-                                    ]
-                                    )
-                                    </li>
-                                 <li><b>think-time Constant</b>
-                                    "Get Updates Constant Timer" 
-                                    (const:15 * 1000ms)
-                                    <br>
-                                    &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Add delays between Get Updates requests</i></li>
-                              </ul>
-                           </li>
-                           <li><b>LoopController</b>
-                              "Send Heartbeats - Loop Controller" </li>
-                           <li>
-                              <ul>
-                                 <li><b>think-time Constant</b>
-                                    "Send Heartbeats Constant Timer" 
-                                    (const:60 * 1000ms)
-                                    <br>
-                                    &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Add delays between Heartbeats requests</i></li>
-                                 <li><b>http request</b>
-                                    "Send Heartbeats HTTP Request" 
+                                    "HTTP Request - Create Edge Deployment" 
                                     (method: "POST",
                                     url: "
-                                    http://${HTTP_SERVER}:${HTTP_SERVER_PORT}//api/k4e-management/v1/data/${DEVICE_ID}/out",
+                                    https://${OCP_API_SERVER}:${OCP_API_PORT}//apis/management.k4e.io/v1alpha1/namespaces/${NAMESPACE}/edgedeployments",
                                     
                                     body: "{&#xD;
-                                    "content": {&#xD;
-                                    "events": [&#xD;
-                                    {&#xD;
-                                    "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc:
-                                    cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error
-                                    starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50:
-                                    a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50
-                                    failed to start: container state improper",&#xD;
-                                    "reason": "Failed",&#xD;
-                                    "type": "warn"&#xD;
+                                    "apiVersion": "management.k4e.io/v1alpha1",&#xD;
+                                    "kind": "EdgeDeployment",&#xD;
+                                    "metadata": {&#xD;
+                                    "name": "${DEVICE_ID}-${NameSuffix}",&#xD;
+                                    "namespace": "default"&#xD;
                                     },&#xD;
+                                    "spec": {&#xD;
+                                    "data": {&#xD;
+                                    "paths": [&#xD;
                                     {&#xD;
-                                    "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc:
-                                    cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error
-                                    starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50:
-                                    a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50
-                                    failed to start: container state improper",&#xD;
-                                    "reason": "Failed",&#xD;
-                                    "type": "warn"&#xD;
-                                    },&#xD;
-                                    {&#xD;
-                                    "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc:
-                                    cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error
-                                    starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50:
-                                    a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50
-                                    failed to start: container state improper",&#xD;
-                                    "reason": "Failed",&#xD;
-                                    "type": "warn"&#xD;
-                                    },&#xD;
-                                    {&#xD;
-                                    "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc:
-                                    cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error
-                                    starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50:
-                                    a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50
-                                    failed to start: container state improper",&#xD;
-                                    "reason": "Failed",&#xD;
-                                    "type": "warn"&#xD;
-                                    }&#xD;
-                                    ],&#xD;
-                                    "status": "up",&#xD;
-                                    "time": "2021-11-23T02:16:37.697+02:00",&#xD;
-                                    "version": "278650",&#xD;
-                                    "workloads": [&#xD;
-                                    {&#xD;
-                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
-                                    "name": "${DEVICE_ID}-1",&#xD;
-                                    "status": "Running"&#xD;
-                                    },&#xD;
-                                    {&#xD;
-                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
-                                    "name": "${DEVICE_ID}-2",&#xD;
-                                    "status": "Created"&#xD;
-                                    },&#xD;
-                                    {&#xD;
-                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
-                                    "name": "${DEVICE_ID}-3",&#xD;
-                                    "status": "Running"&#xD;
-                                    },&#xD;
-                                    {&#xD;
-                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
-                                    "name": "${DEVICE_ID}-4",&#xD;
-                                    "status": "Created"&#xD;
-                                    },&#xD;
-                                    {&#xD;
-                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
-                                    "name": "${DEVICE_ID}-5",&#xD;
-                                    "status": "Running"&#xD;
-                                    },&#xD;
-                                    {&#xD;
-                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
-                                    "name": "${DEVICE_ID}-6",&#xD;
-                                    "status": "Created"&#xD;
-                                    },&#xD;
-                                    {&#xD;
-                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
-                                    "name": "${DEVICE_ID}-7",&#xD;
-                                    "status": "Running"&#xD;
-                                    },&#xD;
-                                    {&#xD;
-                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
-                                    "name": "${DEVICE_ID}-8",&#xD;
-                                    "status": "Created"&#xD;
-                                    },&#xD;
-                                    {&#xD;
-                                    "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
-                                    "name": "${DEVICE_ID}-9",&#xD;
-                                    "status": "Running"&#xD;
+                                    "source": ".",&#xD;
+                                    "target": "nginx"&#xD;
                                     }&#xD;
                                     ]&#xD;
                                     },&#xD;
-                                    "directive": "heartbeat",&#xD;
-                                    "message_id": "${__UUID()}",&#xD;
-                                    "type": "data",&#xD;
-                                    "version": 1&#xD;
+                                    "deviceSelector": {&#xD;
+                                    "matchLabels": {&#xD;
+                                    "${LABEL_NAME}": "${DEVICE_ID}"&#xD;
+                                    }&#xD;
+                                    },&#xD;
+                                    "pod": {&#xD;
+                                    "spec": {&#xD;
+                                    "containers": [&#xD;
+                                    {&#xD;
+                                    "image": "docker.io/nginx:1.14.2",&#xD;
+                                    "name": "nginx",&#xD;
+                                    "ports": [&#xD;
+                                    {&#xD;
+                                    "containerPort": 80,&#xD;
+                                    "hostPort": 9090,&#xD;
+                                    "protocol": "TCP"&#xD;
+                                    }&#xD;
+                                    ]&#xD;
+                                    }&#xD;
+                                    ]&#xD;
+                                    }&#xD;
+                                    },&#xD;
+                                    "type": "pod"&#xD;
+                                    }&#xD;
                                     }"
                                     ,
                                     upload-files: [
@@ -740,69 +617,188 @@ ul.tree li:last-child {
                                     ]
                                     )
                                     <br>
-                                    &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Send Heartbeats</i></li>
+                                    &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Create Edge Deployment with labels matching for device</i></li>
                                  <li>
                                     <ul>
                                        <li><b>add headers</b>
                                           "HTTP Header Manager" 
                                           (headers:[
                                           
-                                          {"content-type"=
+                                          {"Content-Type"=
                                           "application/json"
+                                          ,
+                                          {"Cache-Control"=
+                                          "no-cache"
+                                          ,
+                                          {"Authorization"=
+                                          "Bearer ${K8S_BEARER_TOKEN}"
                                           ])
                                           </li>
+                                       <li><b>DebugPostProcessor</b>
+                                          "Debug PostProcessor" </li>
                                     </ul>
                                  </li>
                               </ul>
                            </li>
                         </ul>
                      </li>
+                     <li><b>LoopController</b>
+                        "Get Updates for Edge Device - Loop Controller" </li>
+                     <li>
+                        <ul>
+                           <li><b>http request</b>
+                              "Get Updates HTTP Request" 
+                              (method: "GET",
+                              url: "
+                              http://${HTTP_SERVER}:${HTTP_SERVER_PORT}//api/k4e-management/v1/data/${DEVICE_ID}/in",
+                              
+                              body: [
+                              
+                              ]
+                              ,
+                              upload-files: [
+                              
+                              ]
+                              )
+                              </li>
+                           <li><b>think-time Constant</b>
+                              "Get Updates Constant Timer" 
+                              (const:15000ms)
+                              <br>
+                              &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Add delays between Get Updates requests</i></li>
+                        </ul>
+                     </li>
+                     <li><b>http request</b>
+                        "Send Heartbeats HTTP Request" 
+                        (method: "POST",
+                        url: "
+                        http://${HTTP_SERVER}:${HTTP_SERVER_PORT}//api/k4e-management/v1/data/${DEVICE_ID}/out",
+                        
+                        body: "{&#xD;
+                        "content": {&#xD;
+                        "events": [&#xD;
+                        {&#xD;
+                        "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc:
+                        cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error
+                        starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50:
+                        a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50
+                        failed to start: container state improper",&#xD;
+                        "reason": "Failed",&#xD;
+                        "type": "warn"&#xD;
+                        },&#xD;
+                        {&#xD;
+                        "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc:
+                        cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error
+                        starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50:
+                        a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50
+                        failed to start: container state improper",&#xD;
+                        "reason": "Failed",&#xD;
+                        "type": "warn"&#xD;
+                        },&#xD;
+                        {&#xD;
+                        "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc:
+                        cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error
+                        starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50:
+                        a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50
+                        failed to start: container state improper",&#xD;
+                        "reason": "Failed",&#xD;
+                        "type": "warn"&#xD;
+                        },&#xD;
+                        {&#xD;
+                        "message": "error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc:
+                        cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error
+                        starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50:
+                        a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50
+                        failed to start: container state improper",&#xD;
+                        "reason": "Failed",&#xD;
+                        "type": "warn"&#xD;
+                        }&#xD;
+                        ],&#xD;
+                        "status": "up",&#xD;
+                        "time": "2021-11-23T02:16:37.697+02:00",&#xD;
+                        "version": "278650",&#xD;
+                        "workloads": [&#xD;
+                        {&#xD;
+                        "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                        "name": "${DEVICE_ID}-1",&#xD;
+                        "status": "Running"&#xD;
+                        },&#xD;
+                        {&#xD;
+                        "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                        "name": "${DEVICE_ID}-2",&#xD;
+                        "status": "Created"&#xD;
+                        },&#xD;
+                        {&#xD;
+                        "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                        "name": "${DEVICE_ID}-3",&#xD;
+                        "status": "Running"&#xD;
+                        },&#xD;
+                        {&#xD;
+                        "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                        "name": "${DEVICE_ID}-4",&#xD;
+                        "status": "Created"&#xD;
+                        },&#xD;
+                        {&#xD;
+                        "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                        "name": "${DEVICE_ID}-5",&#xD;
+                        "status": "Running"&#xD;
+                        },&#xD;
+                        {&#xD;
+                        "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                        "name": "${DEVICE_ID}-6",&#xD;
+                        "status": "Created"&#xD;
+                        },&#xD;
+                        {&#xD;
+                        "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                        "name": "${DEVICE_ID}-7",&#xD;
+                        "status": "Running"&#xD;
+                        },&#xD;
+                        {&#xD;
+                        "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                        "name": "${DEVICE_ID}-8",&#xD;
+                        "status": "Created"&#xD;
+                        },&#xD;
+                        {&#xD;
+                        "last_data_upload": "0001-01-01T00:00:00.000Z",&#xD;
+                        "name": "${DEVICE_ID}-9",&#xD;
+                        "status": "Running"&#xD;
+                        }&#xD;
+                        ]&#xD;
+                        },&#xD;
+                        "directive": "heartbeat",&#xD;
+                        "message_id": "${__UUID()}",&#xD;
+                        "type": "data",&#xD;
+                        "version": 1&#xD;
+                        }"
+                        ,
+                        upload-files: [
+                        
+                        ]
+                        )
+                        <br>
+                        &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Send Heartbeats</i></li>
+                     <li>
+                        <ul>
+                           <li><b>add headers</b>
+                              "HTTP Header Manager" 
+                              (headers:[
+                              
+                              {"content-type"=
+                              "application/json"
+                              ])
+                              </li>
+                        </ul>
+                     </li>
                   </ul>
                </li>
+               <li><b>write samples</b>
+                  "Response Time Graph" <del>(disabled)</del>&nbsp;
+                  </li>
                <li><b>write samples</b>
                   "View Results in Table" <del>(disabled)</del>&nbsp;
                   </li>
                <li><b>write samples</b>
                   "View Results Tree" <del>(disabled)</del>&nbsp;
-                  </li>
-               <li><b>set variables for thread</b>
-                  "User Parameters" 
-                  (names=[
-                  
-                  "HTTP_SERVER"
-                  ,
-                  "HTTP_SERVER_PORT"
-                  ,
-                  "OCP_API_SERVER"
-                  ,
-                  "OCP_API_PORT"
-                  ,
-                  "K8S_BEARER_TOKEN"
-                  ,
-                  "LABEL_NAME"
-                  ,
-                  "LABEL_VALUE"
-                  ,
-                  "NAMESPACE"
-                  ],values=[
-                  
-                  "localhost"
-                  ,
-                  "8888"
-                  ,
-                  "192.168.49.2"
-                  ,
-                  "8443"
-                  ,
-                  "eyJhbGciOiJSUzI1NiIsImtpZCI6IjVCUV9WTkxGQktodTFLY1VBT2JTNXBkcGRtR3dxOGNzd1NVVjFrbGk5Q1UifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6Ims0ZS1zY2FsZS10b2tlbi1yYmw3dyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJrNGUtc2NhbGUiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiIyNDE3ZjRhYS1iOGVjLTRkNTAtOWY1Yi1kY2RiZjYxNTllMjMiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDprNGUtc2NhbGUifQ.lyaSjLHFXTRHWGnhh1FwO4lgPNa_5VW0E3GuAVPt9AAabzorq3_vIDDSbxugVsEy4-pHZC3CGS0AQiV2qrYaU24a67AICeMJjHrliKd3rx2Fqcrq76W3aaICXC8Cp7l868Xvoj2bgvAup0VFjBd-KeNtT_oDJmO1kiXsg_6nnjOLLC6yqPUUG_Zs9rD2IgWeUEJ5AV4-6bqp36zhm6qeE3B_n7Zh3z3Zk2wkrOhtTtfT0bGGnVXSANRO9PW8Uj5i4MYKkkp3DoxUISGLvcDOdVgyu6Gi8VtA2EgIW9edtF1oVIpQUUOEqDdc4bqgKxy9KxPAAUySoIq75Sn4hOVjig"
-                  ,
-                  "region"
-                  ,
-                  "emea"
-                  ,
-                  "default"
-                  ]
-                  )
                   </li>
             </ul>
          </li>
