@@ -73,7 +73,7 @@ ul.tree li:last-child {
                   ,
                   "default"
                   ,
-                  "10"
+                  "5"
                   ]
                   )
                   </li>
@@ -502,12 +502,6 @@ ul.tree li:last-child {
                                     &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Verify device was created successfully</i></li>
                               </ul>
                            </li>
-                        </ul>
-                     </li>
-                     <li><b>OnceOnlyController</b>
-                        "Once Only Controller - Device Labelling" </li>
-                     <li>
-                        <ul>
                            <li><b>http request</b>
                               "Label Device HTTP Request" 
                               (method: "PATCH",
@@ -634,6 +628,11 @@ ul.tree li:last-child {
                                           "Debug PostProcessor" </li>
                                     </ul>
                                  </li>
+                                 <li><b>think-time Constant</b>
+                                    "Pause between edgedeployments creation Constant Timer" 
+                                    (const:1000ms)
+                                    <br>
+                                    &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Add delays between edgedeployments creation of the same device</i></li>
                               </ul>
                            </li>
                         </ul>
@@ -787,13 +786,20 @@ ul.tree li:last-child {
                      </li>
                   </ul>
                </li>
+               <li><b>think-time Constant</b>
+                  "Get Updates Constant Timer" 
+                  (const:5000ms)
+                  <br>
+                  &nbsp;&nbsp;&nbsp;Comments: <i style="color:green">Add delays between iterations</i></li>
                <li><b>write samples</b>
                   "Response Time Graph" <del>(disabled)</del>&nbsp;
                   </li>
                <li><b>write samples</b>
-                  "View Results in Table" </li>
+                  "View Results in Table" <del>(disabled)</del>&nbsp;
+                  </li>
                <li><b>write samples</b>
-                  "View Results Tree" </li>
+                  "View Results Tree" <del>(disabled)</del>&nbsp;
+                  </li>
             </ul>
          </li>
       </ul>
