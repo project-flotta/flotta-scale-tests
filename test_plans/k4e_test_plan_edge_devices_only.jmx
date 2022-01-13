@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4.1">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="K4E Test Plan" enabled="true">
-      <stringProp name="TestPlan.comments"></stringProp>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="K4E Test Plan - Edge Devices only" enabled="true">
+      <stringProp name="TestPlan.comments">The test plan will not include edge deployments creation</stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
@@ -30,15 +30,15 @@
           <stringProp name="-671461751">DEPLOYMENTS_PER_DEVICE</stringProp>
         </collectionProp>
         <collectionProp name="UserParameters.thread_values">
-          <collectionProp name="2133533502">
-            <stringProp name="-546850260">${__P(HTTP_SERVER,k4e-operator-controller-manager-k4e-operator-system.apps.mycluster.redhat.com)}</stringProp>
-            <stringProp name="1153133027">${__P(HTTP_SERVER_PORT,80)}</stringProp>
+          <collectionProp name="1074148568">
+            <stringProp name="-1384578503">k4e-operator-controller-manager-k4e-operator-system.apps.mycluster.redhat.com</stringProp>
+            <stringProp name="0"></stringProp>
             <stringProp name="-1649297033">${__P(OCP_API_SERVER,api.mycluster.redhat.com)}</stringProp>
-            <stringProp name="-404799529">${__P(OCP_API_PORT,6443)}</stringProp>
+            <stringProp name="1660349">6443</stringProp>
             <stringProp name="-934795532">region</stringProp>
             <stringProp name="3116868">emea</stringProp>
             <stringProp name="1544803905">default</stringProp>
-            <stringProp name="-1692776171">${__P(DEPLOYMENTS_PER_DEVICE,5)}</stringProp>
+            <stringProp name="1567">10</stringProp>
           </collectionProp>
         </collectionProp>
         <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -412,7 +412,6 @@
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
             <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
             <stringProp name="TestPlan.comments">Device Registration</stringProp>
@@ -503,123 +502,6 @@
             <hashTree/>
           </hashTree>
         </hashTree>
-        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Once Only Controller - Create EdgeDeployments" enabled="true"/>
-        <hashTree>
-          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller - Create EdgeDeployments" enabled="true">
-            <boolProp name="LoopController.continue_forever">true</boolProp>
-            <stringProp name="LoopController.loops">${DEPLOYMENTS_PER_DEVICE}</stringProp>
-          </LoopController>
-          <hashTree>
-            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="NameSuffix Countre" enabled="true">
-              <stringProp name="CounterConfig.start">1</stringProp>
-              <stringProp name="CounterConfig.end">10</stringProp>
-              <stringProp name="CounterConfig.incr">1</stringProp>
-              <stringProp name="CounterConfig.name">NameSuffix</stringProp>
-              <stringProp name="CounterConfig.format"></stringProp>
-              <boolProp name="CounterConfig.per_user">true</boolProp>
-              <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
-            </CounterConfig>
-            <hashTree/>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request - Create Edge Deployment" enabled="true">
-              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-                <collectionProp name="Arguments.arguments">
-                  <elementProp name="" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">{&#xd;
-    &quot;apiVersion&quot;: &quot;management.k4e.io/v1alpha1&quot;,&#xd;
-    &quot;kind&quot;: &quot;EdgeDeployment&quot;,&#xd;
-    &quot;metadata&quot;: {&#xd;
-        &quot;name&quot;: &quot;${DEVICE_ID}-${NameSuffix}&quot;,&#xd;
-        &quot;namespace&quot;: &quot;default&quot;&#xd;
-    },&#xd;
-    &quot;spec&quot;: {&#xd;
-        &quot;data&quot;: {&#xd;
-            &quot;paths&quot;: [&#xd;
-                {&#xd;
-                    &quot;source&quot;: &quot;.&quot;,&#xd;
-                    &quot;target&quot;: &quot;nginx&quot;&#xd;
-                }&#xd;
-            ]&#xd;
-        },&#xd;
-        &quot;deviceSelector&quot;: {&#xd;
-            &quot;matchLabels&quot;: {&#xd;
-                &quot;${LABEL_NAME}&quot;: &quot;${DEVICE_ID}&quot;&#xd;
-            }&#xd;
-        },&#xd;
-        &quot;pod&quot;: {&#xd;
-            &quot;spec&quot;: {&#xd;
-                &quot;containers&quot;: [&#xd;
-                    {&#xd;
-                        &quot;image&quot;: &quot;docker.io/nginx:1.14.2&quot;,&#xd;
-                        &quot;name&quot;: &quot;nginx&quot;,&#xd;
-                        &quot;ports&quot;: [&#xd;
-                            {&#xd;
-                                &quot;containerPort&quot;: 80,&#xd;
-                                &quot;hostPort&quot;: 9090,&#xd;
-                                &quot;protocol&quot;: &quot;TCP&quot;&#xd;
-                            }&#xd;
-                        ]&#xd;
-                    }&#xd;
-                ]&#xd;
-            }&#xd;
-        },&#xd;
-        &quot;type&quot;: &quot;pod&quot;&#xd;
-    }&#xd;
-}</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                  </elementProp>
-                </collectionProp>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain">${OCP_API_SERVER}</stringProp>
-              <stringProp name="HTTPSampler.port">${OCP_API_PORT}</stringProp>
-              <stringProp name="HTTPSampler.protocol">https</stringProp>
-              <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
-              <stringProp name="HTTPSampler.path">/apis/management.k4e.io/v1alpha1/namespaces/${NAMESPACE}/edgedeployments</stringProp>
-              <stringProp name="HTTPSampler.method">POST</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-              <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
-              <stringProp name="TestPlan.comments">Create Edge Deployment with labels matching for device</stringProp>
-            </HTTPSamplerProxy>
-            <hashTree>
-              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
-                <collectionProp name="HeaderManager.headers">
-                  <elementProp name="" elementType="Header">
-                    <stringProp name="Header.name">Content-Type</stringProp>
-                    <stringProp name="Header.value">application/json</stringProp>
-                  </elementProp>
-                  <elementProp name="" elementType="Header">
-                    <stringProp name="Header.name">Cache-Control</stringProp>
-                    <stringProp name="Header.value">no-cache</stringProp>
-                  </elementProp>
-                  <elementProp name="" elementType="Header">
-                    <stringProp name="Header.name">Authorization</stringProp>
-                    <stringProp name="Header.value">Bearer ${__P(K8S_BEARER_TOKEN)} </stringProp>
-                  </elementProp>
-                </collectionProp>
-              </HeaderManager>
-              <hashTree/>
-              <DebugPostProcessor guiclass="TestBeanGUI" testclass="DebugPostProcessor" testname="Debug PostProcessor" enabled="true">
-                <boolProp name="displayJMeterProperties">false</boolProp>
-                <boolProp name="displayJMeterVariables">true</boolProp>
-                <boolProp name="displaySamplerProperties">true</boolProp>
-                <boolProp name="displaySystemProperties">false</boolProp>
-              </DebugPostProcessor>
-              <hashTree/>
-            </hashTree>
-            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Pause between edgedeployments creation Constant Timer" enabled="true">
-              <stringProp name="TestPlan.comments">Add delays between edgedeployments creation of the same device</stringProp>
-              <stringProp name="ConstantTimer.delay">1000</stringProp>
-            </ConstantTimer>
-            <hashTree/>
-          </hashTree>
-        </hashTree>
         <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Get Updates for Edge Device - Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">true</boolProp>
           <stringProp name="LoopController.loops">4</stringProp>
@@ -640,7 +522,6 @@
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
             <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
@@ -659,78 +540,11 @@
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
    &quot;content&quot;: {&#xd;
-       &quot;events&quot;: [&#xd;
-           {&#xd;
-               &quot;message&quot;: &quot;error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc: cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50: a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50 failed to start: container state improper&quot;,&#xd;
-               &quot;reason&quot;: &quot;Failed&quot;,&#xd;
-               &quot;type&quot;: &quot;warn&quot;&#xd;
-           },&#xd;
-           {&#xd;
-               &quot;message&quot;: &quot;error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc: cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50: a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50 failed to start: container state improper&quot;,&#xd;
-               &quot;reason&quot;: &quot;Failed&quot;,&#xd;
-               &quot;type&quot;: &quot;warn&quot;&#xd;
-           },&#xd;
-           {&#xd;
-               &quot;message&quot;: &quot;error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc: cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50: a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50 failed to start: container state improper&quot;,&#xd;
-               &quot;reason&quot;: &quot;Failed&quot;,&#xd;
-               &quot;type&quot;: &quot;warn&quot;&#xd;
-           },&#xd;
-           {&#xd;
-               &quot;message&quot;: &quot;error starting container f8433cc4b0c963ce95625ab3b1811382f852432f61a2d087422210e9d34bc2bc: cannot listen on the TCP port: listen tcp4 :11000: bind: address already in use,error starting container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50: a dependency of container 7cd64802bde9d6b9dd425d79ea68eb49546e5fc87d0dce474c7515e81f448d50 failed to start: container state improper&quot;,&#xd;
-               &quot;reason&quot;: &quot;Failed&quot;,&#xd;
-               &quot;type&quot;: &quot;warn&quot;&#xd;
-           }&#xd;
-       ],&#xd;
+       &quot;events&quot;: [],&#xd;
        &quot;status&quot;: &quot;up&quot;,&#xd;
        &quot;time&quot;: &quot;2021-11-23T02:16:37.697+02:00&quot;,&#xd;
        &quot;version&quot;: &quot;278650&quot;,&#xd;
-       &quot;workloads&quot;: [&#xd;
-           {&#xd;
-               &quot;last_data_upload&quot;: &quot;0001-01-01T00:00:00.000Z&quot;,&#xd;
-               &quot;name&quot;: &quot;${DEVICE_ID}-1&quot;,&#xd;
-               &quot;status&quot;: &quot;Running&quot;&#xd;
-           },&#xd;
-           {&#xd;
-               &quot;last_data_upload&quot;: &quot;0001-01-01T00:00:00.000Z&quot;,&#xd;
-               &quot;name&quot;: &quot;${DEVICE_ID}-2&quot;,&#xd;
-               &quot;status&quot;: &quot;Created&quot;&#xd;
-           },&#xd;
-           {&#xd;
-               &quot;last_data_upload&quot;: &quot;0001-01-01T00:00:00.000Z&quot;,&#xd;
-               &quot;name&quot;: &quot;${DEVICE_ID}-3&quot;,&#xd;
-               &quot;status&quot;: &quot;Running&quot;&#xd;
-           },&#xd;
-           {&#xd;
-               &quot;last_data_upload&quot;: &quot;0001-01-01T00:00:00.000Z&quot;,&#xd;
-               &quot;name&quot;: &quot;${DEVICE_ID}-4&quot;,&#xd;
-               &quot;status&quot;: &quot;Created&quot;&#xd;
-           },&#xd;
-           {&#xd;
-               &quot;last_data_upload&quot;: &quot;0001-01-01T00:00:00.000Z&quot;,&#xd;
-               &quot;name&quot;: &quot;${DEVICE_ID}-5&quot;,&#xd;
-               &quot;status&quot;: &quot;Running&quot;&#xd;
-           },&#xd;
-           {&#xd;
-               &quot;last_data_upload&quot;: &quot;0001-01-01T00:00:00.000Z&quot;,&#xd;
-               &quot;name&quot;: &quot;${DEVICE_ID}-6&quot;,&#xd;
-               &quot;status&quot;: &quot;Created&quot;&#xd;
-           },&#xd;
-           {&#xd;
-               &quot;last_data_upload&quot;: &quot;0001-01-01T00:00:00.000Z&quot;,&#xd;
-               &quot;name&quot;: &quot;${DEVICE_ID}-7&quot;,&#xd;
-               &quot;status&quot;: &quot;Running&quot;&#xd;
-           },&#xd;
-           {&#xd;
-               &quot;last_data_upload&quot;: &quot;0001-01-01T00:00:00.000Z&quot;,&#xd;
-               &quot;name&quot;: &quot;${DEVICE_ID}-8&quot;,&#xd;
-               &quot;status&quot;: &quot;Created&quot;&#xd;
-           },&#xd;
-           {&#xd;
-               &quot;last_data_upload&quot;: &quot;0001-01-01T00:00:00.000Z&quot;,&#xd;
-               &quot;name&quot;: &quot;${DEVICE_ID}-9&quot;,&#xd;
-               &quot;status&quot;: &quot;Running&quot;&#xd;
-           }&#xd;
-       ]&#xd;
+       &quot;workloads&quot;: []&#xd;
    },&#xd;
    &quot;directive&quot;: &quot;heartbeat&quot;,&#xd;
    &quot;message_id&quot;: &quot;${__UUID()}&quot;,&#xd;
@@ -752,7 +566,6 @@
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
           <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="TestPlan.comments">Send Heartbeats</stringProp>
@@ -769,9 +582,9 @@
           <hashTree/>
         </hashTree>
       </hashTree>
-      <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Get Updates Constant Timer" enabled="true">
+      <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Get Updates Constant Timer" enabled="false">
         <stringProp name="TestPlan.comments">Add delays between iterations</stringProp>
-        <stringProp name="ConstantTimer.delay">5000</stringProp>
+        <stringProp name="ConstantTimer.delay">15000</stringProp>
       </ConstantTimer>
       <hashTree/>
       <ResultCollector guiclass="RespTimeGraphVisualizer" testclass="ResultCollector" testname="Response Time Graph" enabled="false">

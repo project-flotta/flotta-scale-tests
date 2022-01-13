@@ -7,7 +7,7 @@ The following parameters need to be set in test plan:
 * HTTP_SERVER - K4E Server address
 * HTTP_SERVER_PORT - K4E Server port (default: 8888)
 * OCP_API_SERVER - K8S API server address
-* OCP_API_PORT - K8S API server port (default: 8443)
+* OCP_API_SERVER_PORT - K8S API server port (default: 8443)
 * NAMESPACE - K4E namespaces aren't supported yet, so the test will be run in the default namespace
 * DEPLOYMENTS_PER_DEVICE - number of deployments per device (default: 10)* 
 
