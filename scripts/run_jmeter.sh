@@ -219,17 +219,23 @@ echo "After test:" >> $test_dir/summary.txt
 edgedevices=$(oc get edgedevices | wc -l)
 edgedeploy=$(oc get edgedeployments | wc -l)
 
-#echo "After test: There are $edgedevices edge devices and $edgedeploy edge deployments" >> $test_dir/summary.txt
-#pods=$(oc get pod -n k4e-operator-system -o name)
-#for p in $pods
-#do
-#  if [[ $p =~ "pod/k4e-operator-controller-manager".* ]]; then
-#    pod_log=$test_dir/${p#*/}.log
-#    oc logs -n k4e-operator-system $p -c manager > $pod_log
-#    gzip $pod_log
-#  fi
-#done
-oc adm must-gather --dest-dir=$test_dir
+echo "After test: There are $edgedevices edge devices and $edgedeploy edge deployments" >> $test_dir/summary.txt
+logs_dir=$test_dir/logs
+mkdir -p $logs_dir/must-gather
+
+oc adm must-gather --dest-dir=$logs_dir/must-gather 2>/dev/null 1>/dev/null
+tar --remove-files -cvzf $logs_dir/must-gather.tar.gz $logs_dir/must-gather 2>/dev/null 1>/dev/null
+
+# Collect additional logs
+pods=$(oc get pod -n k4e-operator-system -o name)
+for p in $pods
+do
+  if [[ $p =~ "pod/k4e-operator-controller-manager".* ]]; then
+    pod_log=$logs_dir/${p#*/}.log
+    oc logs -n k4e-operator-system $p -c manager > $pod_log
+    gzip $pod_log
+  fi
+done
 
 gzip $test_dir/results.csv
 ELAPSED_TIME=$(($SECONDS - $START_TIME))
