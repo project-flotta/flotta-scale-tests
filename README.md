@@ -1,4 +1,4 @@
-# k4e-scale
+# flotta-scale-tests
 The purpose of this project is to test the scalability and performance of [k4e project](https://github.com/jakub-dzon/k4e-operator) using [JMeter](https://jmeter.apache.org).
 
 ## Running the test plan
