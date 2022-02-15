@@ -20,6 +20,7 @@ OPTIONS:
    -n      Test run ID
    -o      Edge deployment updates concurrency (default: 5)
    -p      Total of edge deployments per device
+   -q      Number of namespaces (default: 10). Requires hacked version of flotta-operator and specific test plan.
    -r      Ramp-up time in seconds to create all edge devices
    -s      Address of OCP API server
    -t      Test plan file
@@ -40,7 +41,7 @@ kubectl get secret $secrets -o json | jq -r '.items[] | select(.type == "kuberne
 
 parse_args()
 {
-while getopts "c:d:e:g:h:i:j:k:l:m:n:o:p:r:s:t:v" option; do
+while getopts "c:d:e:g:h:i:j:k:l:m:n:o:p:q:r:s:t:v" option; do
     case "${option}"
     in
         c) MAX_CONCURRENT_RECONCILES=${OPTARG};;
@@ -55,6 +56,7 @@ while getopts "c:d:e:g:h:i:j:k:l:m:n:o:p:r:s:t:v" option; do
         n) TEST_ID=${OPTARG};;
         o) EDGEDEPLOYMENT_CONCURRENCY=${OPTARG};;
         p) EDGE_DEPLOYMENTS_PER_DEVICE=${OPTARG};;
+        q) NAMESPACES_COUNT=${OPTARG};;
         r) RAMP_UP_TIME=${OPTARG};;
         s) OCP_API_SERVER=${OPTARG};;
         t) TEST_PLAN=${OPTARG};;
@@ -168,6 +170,12 @@ if [[ ! -f $TEST_PLAN ]]; then
     exit 1
 fi
 
+if [[ -z $NAMESPACES_COUNT ]]; then
+    RUN_WITHOUT_NAMESPACES=1
+    NAMESPACES_COUNT="10"
+    echo "INFO: Namespaces not specified. Using default value: $NAMESPACES_COUNT"
+fi
+
 if [[ -n $VERBOSE ]]; then
     set -xv
 fi
@@ -204,8 +212,8 @@ echo "----------------------------------------------------"
 } >> $test_dir/summary.txt
 
 cp $TEST_PLAN $test_dir/
-edgedevices=$(oc get edgedevices | wc -l)
-edgedeploy=$(oc get edgedeployments | wc -l)
+edgedevices=$(kubectl get edgedevices --all-namespaces | wc -l)
+edgedeploy=$(kubectl get edgedeployments --all-namespaces | wc -l)
 echo "Before test: There are $edgedevices edge devices and $edgedeploy edge deployments" >> $test_dir/summary.txt
 }
 
@@ -220,7 +228,8 @@ JVM_ARGS="-Xms4g -Xmx64g -Xss250k -XX:MaxMetaspaceSize=1g" $JMETER_HOME/bin/jmet
     -JITERATIONS=$ITERATIONS \
     -JOCP_API_SERVER=$OCP_API_SERVER \
     -JK8S_BEARER_TOKEN=$K8S_BEARER_TOKEN \
-    -JHTTP_SERVER=$HTTP_SERVER |& tee -a $test_dir/summary.txt
+    -JHTTP_SERVER=$HTTP_SERVER \
+    -JNAMESPACES_COUNT=$NAMESPACES_COUNT|& tee -a $test_dir/summary.txt
 }
 
 collect_results()
@@ -230,10 +239,19 @@ echo "INFO: Collecting results"
 echo "----------------------------------------------------"
 echo "After test:" >> $test_dir/summary.txt
 } >> $test_dir/summary.txt
-edgedevices=$(oc get edgedevices | wc -l)
-edgedeploy=$(oc get edgedeployments | wc -l)
 
-echo "After test: There are $edgedevices edge devices and $edgedeploy edge deployments" >> $test_dir/summary.txt
+if [[ -z $NAMESPACES_COUNT ]]; then
+    edgedevices=$(kubectl get edgedevices --all-namespaces | wc -l)
+    edgedeploy=$(kubectl get edgedeployments --all-namespaces | wc -l)
+    echo "There are $edgedevices edge devices and $edgedeploy edge deployments" >> $test_dir/summary.txt
+else
+    for i in $(seq 1 $NAMESPACES_COUNT); do
+        edgedevices=$(kubectl get edgedevices -n $i | wc -l)
+        edgedeploy=$(kubectl get edgedeployments -n $i | wc -l)
+        echo "There are $edgedevices edge devices and $edgedeploy edge deployments in namespace $i" >> $test_dir/summary.txt
+    done
+fi
+
 logs_dir=$test_dir/logs
 mkdir -p $logs_dir
 
@@ -244,12 +262,12 @@ if [[ -n $MUST_GATHER ]]; then
 fi
 
 # Collect additional logs
-pods=$(oc get pod -n flotta -o name)
+pods=$(kubectl get pod -n flotta -o name)
 for p in $pods
 do
   if [[ $p =~ "pod/flotta-operator-controller-manager".* ]]; then
     pod_log=$logs_dir/${p#*/}.log
-    oc logs -n flotta $p -c manager > $pod_log
+    kubectl logs -n flotta $p -c manager > $pod_log
     gzip $pod_log
   fi
 done
@@ -268,7 +286,8 @@ kubectl patch cm -n flotta flotta-operator-manager-config --type merge --patch '
     "LOG_LEVEL": "'$LOG_LEVEL'",
     "OBC_AUTO_CREATE": "false",
      "MAX_CONCURRENT_RECONCILES": "'$MAX_CONCURRENT_RECONCILES'",
-     "EDGEDEPLOYMENT_CONCURRENCY": "'$EDGEDEPLOYMENT_CONCURRENCY'"}
+     "EDGEDEPLOYMENT_CONCURRENCY": "'$EDGEDEPLOYMENT_CONCURRENCY'",
+     "NAMESPACES_COUNT": "'$NAMESPACES_COUNT'"}
 }'
 
 memory_per_10k_crs=300
