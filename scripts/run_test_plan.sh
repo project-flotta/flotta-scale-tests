@@ -240,7 +240,7 @@ echo "----------------------------------------------------"
 echo "After test:" >> $test_dir/summary.txt
 } >> $test_dir/summary.txt
 
-if [[ -z $NAMESPACES_COUNT ]]; then
+if [[ -z $RUN_WITHOUT_NAMESPACES ]]; then
     edgedevices=$(kubectl get edgedevices --all-namespaces | wc -l)
     edgedeploy=$(kubectl get edgedeployments --all-namespaces | wc -l)
     echo "There are $edgedevices edge devices and $edgedeploy edge deployments" >> $test_dir/summary.txt
