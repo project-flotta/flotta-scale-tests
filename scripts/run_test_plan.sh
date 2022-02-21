@@ -172,7 +172,7 @@ fi
 
 if [[ -z $NAMESPACES_COUNT ]]; then
     RUN_WITHOUT_NAMESPACES=1
-    NAMESPACES_COUNT="10"
+    NAMESPACES_COUNT="0"
     echo "INFO: Namespaces not specified. Using default value: $NAMESPACES_COUNT"
 fi
 
