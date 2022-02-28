@@ -10,7 +10,8 @@ OPTIONS:
    -c      Max concurrent reconcilers (default: 3)
    -d      Total of edge devices
    -e      Number of operator's replicas (default: 1)
-   -g      Address of HTTP server(as exposed via route or ingress)
+   -f      HTTP server port (default: 80)
+   -g      HTTP server address (as exposed via route or ingress)
    -h      Show this message
    -i      Number of iterations
    -j      Jmeter home directory
@@ -41,12 +42,13 @@ kubectl get secret $secrets -o json | jq -r '.items[] | select(.type == "kuberne
 
 parse_args()
 {
-while getopts "c:d:e:g:h:i:j:k:l:m:n:o:p:q:r:s:t:v" option; do
+while getopts "c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:v" option; do
     case "${option}"
     in
         c) MAX_CONCURRENT_RECONCILES=${OPTARG};;
         d) EDGE_DEVICES_COUNT=${OPTARG};;
         e) REPLICAS=${OPTARG};;
+        f) HTTP_SERVER_PORT=${OPTARG};;
         g) HTTP_SERVER=${OPTARG};;
         i) ITERATIONS=${OPTARG};;
         j) JMETER_HOME=${OPTARG};;
@@ -155,6 +157,11 @@ if [[ -z $HTTP_SERVER ]]; then
     exit 1
 fi
 
+if [[ -z $HTTP_SERVER_PORT ]]; then
+    echo "HTTP port is not specified. Using default value: 80"
+    HTTP_SERVER_PORT=80
+fi
+
 if [[ -z $JMETER_HOME ]]; then
     JMETER_HOME=/home/test/apache-jmeter-5.4.1
     echo "INFO: Jmeter home directory is not provided. Using default value: $JMETER_HOME"
@@ -206,6 +213,7 @@ echo "Iterations: ${ITERATIONS}"
 echo "OCP API server: ${OCP_API_SERVER}"
 echo "K8s bearer token: ${K8S_BEARER_TOKEN}"
 echo "HTTP server: ${HTTP_SERVER}"
+echo "HTTP port: ${HTTP_SERVER_PORT}"
 echo "Replicas: ${REPLICAS}"
 echo "Max concurrent reconcilers: ${MAX_CONCURRENT_RECONCILES}"
 echo "----------------------------------------------------"
@@ -229,6 +237,7 @@ JVM_ARGS="-Xms4g -Xmx64g -Xss250k -XX:MaxMetaspaceSize=1g" $JMETER_HOME/bin/jmet
     -JOCP_API_SERVER=$OCP_API_SERVER \
     -JK8S_BEARER_TOKEN=$K8S_BEARER_TOKEN \
     -JHTTP_SERVER=$HTTP_SERVER \
+    -JHTTP_SERVER_PORT=$HTTP_SERVER_PORT \
     -JNAMESPACES_COUNT=$NAMESPACES_COUNT|& tee -a $test_dir/summary.txt
 }
 
@@ -240,7 +249,7 @@ echo "----------------------------------------------------"
 echo "After test:" >> $test_dir/summary.txt
 } >> $test_dir/summary.txt
 
-if [[ -z $NAMESPACES_COUNT ]]; then
+if [[ -z $RUN_WITHOUT_NAMESPACES ]]; then
     edgedevices=$(kubectl get edgedevices --all-namespaces | wc -l)
     edgedeploy=$(kubectl get edgedeployments --all-namespaces | wc -l)
     echo "There are $edgedevices edge devices and $edgedeploy edge deployments" >> $test_dir/summary.txt
@@ -334,7 +343,7 @@ count=0
 echo "Waiting for HTTP server to be ready at $HTTP_SERVER"
 until [[ count -gt 100 ]]
 do
-  curl -s -i "$HTTP_SERVER" | grep 404 > /dev/null
+  curl -m 5 -s -i "$HTTP_SERVER":"$HTTP_SERVER_PORT" | grep 404 > /dev/null
   if [ "$?" == "1" ]; then
     echo -n "."
     count=$((count+1))
