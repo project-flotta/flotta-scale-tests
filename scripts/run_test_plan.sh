@@ -25,6 +25,7 @@ OPTIONS:
    -r      Ramp-up time in seconds to create all edge devices
    -s      Address of OCP API server
    -t      Test plan file
+   -u      Expose pprof on port 6060 (default: false)
    -v      Verbose
 EOF
 }
@@ -42,7 +43,7 @@ kubectl get secret $secrets -o json | jq -r '.items[] | select(.type == "kuberne
 
 parse_args()
 {
-while getopts "c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:v" option; do
+while getopts "c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v" option; do
     case "${option}"
     in
         c) MAX_CONCURRENT_RECONCILES=${OPTARG};;
@@ -63,6 +64,7 @@ while getopts "c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:v" option; do
         s) OCP_API_SERVER=${OPTARG};;
         t) TEST_PLAN=${OPTARG};;
         v) VERBOSE=1;;
+        u) EXPOSE_PPROF=1;;
         h)
             usage
             exit 0
@@ -315,6 +317,7 @@ echo "Total CPU: $total_cpu"
 echo "----------------------------------------------------"
 } >> $test_dir/summary.txt
 
+kubectl scale --replicas=0 deployment flotta-operator-controller-manager -n flotta
 kubectl patch deployment flotta-operator-controller-manager -n flotta -p '
 { "spec": {
     "template": {
@@ -334,7 +337,57 @@ kubectl patch deployment flotta-operator-controller-manager -n flotta -p '
     }
 }'
 
-kubectl scale --replicas=0 deployment flotta-operator-controller-manager -n flotta
+if [[ -n $EXPOSE_PPROF ]]; then
+  kubectl patch deployment flotta-operator-controller-manager -n flotta -p '
+  { "spec": {
+      "template": {
+        "spec":
+          { "containers":
+            [{"name": "manager",
+              "ports": [
+                  {
+                      "containerPort": 6060,
+                      "name": "pprof",
+                      "protocol": "TCP"
+                  }
+              ]
+            }]
+          }
+        }
+      }
+  }'
+
+  kubectl patch service flotta-operator-controller-manager -n flotta -p '
+  { "spec": {
+      "ports": [
+          {
+              "name": "pprof",
+              "port": 6060,
+              "protocol": "TCP",
+              "targetPort": "pprof"
+          }
+      ]
+  }
+  }'
+
+  kubectl patch deployment -n flotta flotta-operator-controller-manager -p '
+   {
+     "spec": {
+       "template":{
+         "metadata":{
+           "annotations":{
+             "pyroscope.io/scrape": "true",
+             "pyroscope.io/application-name": "flotta-operator",
+             "pyroscope.io/profile-cpu-enabled": "true",
+             "pyroscope.io/profile-mem-enabled": "true",
+             "pyroscope.io/port": "6060"
+           }
+         }
+       }
+     }
+  }'
+fi
+
 kubectl scale --replicas=$REPLICAS deployment flotta-operator-controller-manager -n flotta
 kubectl wait --for=condition=available -n flotta deployment.apps/flotta-operator-controller-manager
 
