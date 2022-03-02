@@ -317,6 +317,7 @@ echo "Total CPU: $total_cpu"
 echo "----------------------------------------------------"
 } >> $test_dir/summary.txt
 
+kubectl scale --replicas=0 deployment flotta-operator-controller-manager -n flotta
 kubectl patch deployment flotta-operator-controller-manager -n flotta -p '
 { "spec": {
     "template": {
@@ -355,9 +356,38 @@ if [[ -n $EXPOSE_PPROF ]]; then
         }
       }
   }'
+
+  kubectl patch service flotta-operator-controller-manager -n flotta -p '
+  { "spec": {
+      "ports": [
+          {
+              "name": "pprof",
+              "port": 6060,
+              "protocol": "TCP",
+              "targetPort": "pprof"
+          }
+      ]
+  }
+  }'
+
+  kubectl patch deployment -n flotta flotta-operator-controller-manager -p '
+   {
+     "spec": {
+       "template":{
+         "metadata":{
+           "annotations":{
+             "pyroscope.io/scrape": "true",
+             "pyroscope.io/application-name": "flotta-operator",
+             "pyroscope.io/profile-cpu-enabled": "true",
+             "pyroscope.io/profile-mem-enabled": "true",
+             "pyroscope.io/port": "6060"
+           }
+         }
+       }
+     }
+  }'
 fi
 
-kubectl scale --replicas=0 deployment flotta-operator-controller-manager -n flotta
 kubectl scale --replicas=$REPLICAS deployment flotta-operator-controller-manager -n flotta
 kubectl wait --for=condition=available -n flotta deployment.apps/flotta-operator-controller-manager
 
