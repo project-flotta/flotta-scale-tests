@@ -240,6 +240,7 @@ JVM_ARGS="-Xms4g -Xmx64g -Xss250k -XX:MaxMetaspaceSize=1g" $JMETER_HOME/bin/jmet
     -JK8S_BEARER_TOKEN=$K8S_BEARER_TOKEN \
     -JHTTP_SERVER=$HTTP_SERVER \
     -JHTTP_SERVER_PORT=$HTTP_SERVER_PORT \
+    -JTEST_PLAN_FOLDER=$test_dir \
     -JNAMESPACES_COUNT=$NAMESPACES_COUNT|& tee -a $test_dir/summary.txt
 }
 
@@ -422,7 +423,21 @@ kubectl top pods -n flotta --use-protocol-buffers
 } >> $test_dir/summary.txt
 }
 
+get_certs()
+{
+echo "INFO: Getting certificates and storing to $test_dir/certs/"
+mkdir -p $test_dir/certs
+kubectl get secret -n flotta flotta-ca  -o json | jq -r '.data."ca.crt"' | base64 -d > $test_dir/certs/ca.pem
+REG_SECRET_NAME=$(kubectl get secrets -n flotta -l reg-client-ca=true --sort-by=.metadata.creationTimestamp -o=custom-columns=NAME:.metadata.name | tail -1)
+kubectl -n flotta get secret "$REG_SECRET_NAME" -o json | jq -r '.data."client.crt"' | base64 -d > $test_dir/certs/cert.pem
+kubectl -n flotta get secret "$REG_SECRET_NAME" -o json | jq -r '.data."client.key"' | base64 -d > $test_dir/certs/key.pem
+cat $test_dir/certs/*.pem > $test_dir/certs/all.pem
+openssl pkcs12 -export -inkey $test_dir/certs/key.pem -in $test_dir/certs/all.pem -name flotta -out $test_dir/certs/flotta.p12 -password pass:flotta
+keytool -importkeystore -srckeystore $test_dir/certs/flotta.p12 -srcstoretype pkcs12 -destkeystore $test_dir/certs/flotta.jks -storepass flotta -srcstorepass flotta -noprompt
+}
+
 parse_args "$@"
+get_certs
 log_run_details
 patch_flotta_operator
 log_pods_details
