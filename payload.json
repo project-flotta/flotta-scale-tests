@@ -1,0 +1,24 @@
+{
+   "content": {
+       "certificate_request": "$CERTIFICATE_REQUEST",
+       "hardware": {
+           "cpu": {
+               "architecture": "x86_64",
+               "flags": [],
+               "model_name": "Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz"
+           },
+           "hostname": "$HOSTNAME",
+           "system_vendor": {
+               "manufacturer": "LENOVO",
+               "product_name": "${PRODUCT_NAME}",
+               "serial_number": "${SERIAL_NAME}"
+           }
+       },
+       "os_image_id": "unknown"
+   },
+   "directive": "registration",
+   "message_id": "$UUID",
+   "sent": "2021-11-21T14:45:25.271+02:00",
+   "type": "data",
+   "version": 1
+}

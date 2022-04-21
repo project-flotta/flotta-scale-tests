@@ -1,6 +1,6 @@
 {
     "apiVersion": "management.project-flotta.io/v1alpha1",
-    "kind": "EdgeDeployment",
+    "kind": "EdgeWorkload",
         "name": "${DEPLOYMENT_NAME}-${DEPLOYMENT_SUFFIX}",
         "namespace": "${NAMESPACE}",
     },

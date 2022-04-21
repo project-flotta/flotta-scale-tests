@@ -20,7 +20,7 @@ OPTIONS:
    -m      Run must-gather to collect logs (default: false)
    -n      Test run ID
    -o      Edge deployment updates concurrency (default: 5)
-   -p      Total of edge deployments per device
+   -p      Total of edge workloads per device
    -q      Number of namespaces (default: 10). Requires hacked version of flotta-operator and specific test plan.
    -r      Ramp-up time in seconds to create all edge devices
    -s      Address of OCP API server
@@ -57,7 +57,7 @@ while getopts "c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v" option; do
         l) LOG_LEVEL=${OPTARG};;
         m) MUST_GATHER=${OPTARG};;
         n) TEST_ID=${OPTARG};;
-        o) EDGEDEPLOYMENT_CONCURRENCY=${OPTARG};;
+        o) edgeworkloadMENT_CONCURRENCY=${OPTARG};;
         p) EDGE_DEPLOYMENTS_PER_DEVICE=${OPTARG};;
         q) NAMESPACES_COUNT=${OPTARG};;
         r) RAMP_UP_TIME=${OPTARG};;
@@ -86,9 +86,9 @@ if [[ -z $REPLICAS ]]; then
     echo "INFO: Number of replicas not specified. Using default value: $REPLICAS"
 fi
 
-if [[ -z $EDGEDEPLOYMENT_CONCURRENCY ]]; then
-    EDGEDEPLOYMENT_CONCURRENCY=5
-    echo "INFO: Edge deployment concurrency not specified. Using default value: $EDGEDEPLOYMENT_CONCURRENCY"
+if [[ -z $edgeworkloadMENT_CONCURRENCY ]]; then
+    edgeworkloadMENT_CONCURRENCY=5
+    echo "INFO: Edge deployment concurrency not specified. Using default value: $edgeworkloadMENT_CONCURRENCY"
 fi
 
 if [[ -z $TEST_ID ]]; then
@@ -104,7 +104,7 @@ if [[ -z $EDGE_DEVICES_COUNT ]]; then
 fi
 
 if [[ -z $EDGE_DEPLOYMENTS_PER_DEVICE ]]; then
-    echo "ERROR: Edge deployments per device is required"
+    echo "ERROR: edge workloads per device is required"
     usage
     exit 1
 fi
@@ -189,7 +189,7 @@ if [[ -n $VERBOSE ]]; then
     set -xv
 fi
 
-test_dir="./test-run-${TEST_ID}"
+export test_dir="$(pwd)/test-run-${TEST_ID}"
 if [ -d "$test_dir" ]; then
     echo "ERROR: Test directory $test_dir already exists"
     exit 1
@@ -209,7 +209,7 @@ echo "Target folder: $test_dir"
 echo "Test ID: ${TEST_ID}"
 echo "Test plan: ${TEST_PLAN}"
 echo "Total of edge devices: ${EDGE_DEVICES_COUNT}"
-echo "Edge deployments per device: ${EDGE_DEPLOYMENTS_PER_DEVICE}"
+echo "edge workloads per device: ${EDGE_DEPLOYMENTS_PER_DEVICE}"
 echo "Ramp-up time: ${RAMP_UP_TIME}"
 echo "Iterations: ${ITERATIONS}"
 echo "OCP API server: ${OCP_API_SERVER}"
@@ -223,8 +223,8 @@ echo "----------------------------------------------------"
 
 cp $TEST_PLAN $test_dir/
 edgedevices=$(kubectl get edgedevices --all-namespaces | wc -l)
-edgedeploy=$(kubectl get edgedeployments --all-namespaces | wc -l)
-echo "Before test: There are $edgedevices edge devices and $edgedeploy edge deployments" >> $test_dir/summary.txt
+edgeworkload=$(kubectl get edgeworkloads --all-namespaces | wc -l)
+echo "Before test: There are $edgedevices edge devices and $edgeworkload edge workloads" >> $test_dir/summary.txt
 }
 
 run_test()
@@ -240,6 +240,8 @@ JVM_ARGS="-Xms4g -Xmx64g -Xss250k -XX:MaxMetaspaceSize=1g" $JMETER_HOME/bin/jmet
     -JK8S_BEARER_TOKEN=$K8S_BEARER_TOKEN \
     -JHTTP_SERVER=$HTTP_SERVER \
     -JHTTP_SERVER_PORT=$HTTP_SERVER_PORT \
+    -JTEST_DIR=$test_dir \
+    -JSCRIPTS_DIR=`pwd` \
     -JNAMESPACES_COUNT=$NAMESPACES_COUNT|& tee -a $test_dir/summary.txt
 }
 
@@ -253,13 +255,13 @@ echo "After test:" >> $test_dir/summary.txt
 
 if [[ -z $RUN_WITHOUT_NAMESPACES ]]; then
     edgedevices=$(kubectl get edgedevices --all-namespaces | wc -l)
-    edgedeploy=$(kubectl get edgedeployments --all-namespaces | wc -l)
-    echo "There are $edgedevices edge devices and $edgedeploy edge deployments" >> $test_dir/summary.txt
+    edgeworkload=$(kubectl get edgeworkloads --all-namespaces | wc -l)
+    echo "There are $edgedevices edge devices and $edgeworkload edge workloads" >> $test_dir/summary.txt
 else
     for i in $(seq 1 $NAMESPACES_COUNT); do
         edgedevices=$(kubectl get edgedevices -n $i | wc -l)
-        edgedeploy=$(kubectl get edgedeployments -n $i | wc -l)
-        echo "There are $edgedevices edge devices and $edgedeploy edge deployments in namespace $i" >> $test_dir/summary.txt
+        edgeworkload=$(kubectl get edgeworkloads -n $i | wc -l)
+        echo "There are $edgedevices edge devices and $edgeworkload edge workloads in namespace $i" >> $test_dir/summary.txt
     done
 fi
 
@@ -297,7 +299,7 @@ kubectl patch cm -n flotta flotta-operator-manager-config --type merge --patch '
     "LOG_LEVEL": "'$LOG_LEVEL'",
     "OBC_AUTO_CREATE": "false",
      "MAX_CONCURRENT_RECONCILES": "'$MAX_CONCURRENT_RECONCILES'",
-     "EDGEDEPLOYMENT_CONCURRENCY": "'$EDGEDEPLOYMENT_CONCURRENCY'",
+     "edgeworkloadMENT_CONCURRENCY": "'$edgeworkloadMENT_CONCURRENCY'",
      "NAMESPACES_COUNT": "'$NAMESPACES_COUNT'"}
 }'
 
@@ -392,11 +394,17 @@ kubectl scale --replicas=$REPLICAS deployment flotta-operator-controller-manager
 kubectl wait --for=condition=available -n flotta deployment.apps/flotta-operator-controller-manager
 
 count=0
-
+DEVICE_ID='default'
+DEVICE_ID=$DEVICE_ID sh generate_certs.sh 
 echo "Waiting for HTTP server to be ready at $HTTP_SERVER"
 until [[ count -gt 100 ]]
 do
-  curl -m 5 -s -i "$HTTP_SERVER":"$HTTP_SERVER_PORT" | grep 404 > /dev/null
+  curl \
+    --cacert ${test_dir}/${DEVICE_ID}_ca.pem \
+    --cert ${test_dir}/${DEVICE_ID}_cert.pem \
+    --key ${test_dir}/${DEVICE_ID}_key.pem -v \
+    -m 5 -s -i \
+    https://${HTTP_SERVER}:${HTTP_SERVER_PORT} | grep 404 > /dev/null
   if [ "$?" == "1" ]; then
     echo -n "."
     count=$((count+1))
@@ -422,8 +430,35 @@ kubectl top pods -n flotta --use-protocol-buffers
 } >> $test_dir/summary.txt
 }
 
+setup()
+{
+  sysctl -w net.core.somaxconn=50000
+  sysctl -w net.core.netdev_max_backlog=50000
+  sysctl -w net.ipv4.tcp_max_syn_backlog=50000 
+  sysctl -w net.ipv4.ip_local_port_range="15000 65000"
+  sysctl -w net.ipv4.tcp_fin_timeout=10
+  sysctl -w vm.max_map_count=999999
+  sysctl -w kernel.threads-max=4113992
+
+  if [ -z $(grep "* soft nofile 999999" "/etc/security/limits.conf") ]; then
+      cat "* soft nofile 999999" >> /etc/security/limits.conf
+  fi
+
+  if [ -z $(grep "* hard nofile 999999" "/etc/security/limits.conf") ]; then
+      cat "* hard nofile 999999" >> /etc/security/limits.conf
+  fi
+
+
+  ifconfig br-ex txqueuelen 5000
+  ifconfig cni-podman0 txqueuelen 5000
+  ifconfig ens3 txqueuelen 5000
+  ifconfig ens4 txqueuelen 5000
+  ifconfig ovn-k8s-mp0 txqueuelen 5000
+}
+
 parse_args "$@"
 log_run_details
+setup
 patch_flotta_operator
 log_pods_details
 run_test
