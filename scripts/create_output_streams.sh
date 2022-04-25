@@ -1,7 +1,11 @@
 #!/bin/bash
-touch ${TEST_DIR}/${DEVICE_ID}_register.out
-touch ${TEST_DIR}/${DEVICE_ID}_register.err 
-touch ${TEST_DIR}/${DEVICE_ID}_get_updates.err
-touch ${TEST_DIR}/${DEVICE_ID}_get_updates.out
-touch ${TEST_DIR}/${DEVICE_ID}_hearthbeat.out
-touch ${TEST_DIR}/${DEVICE_ID}_hearthbeat.err
+mkdir -p ${REGISTRATION_FOLDER}
+mkdir -p ${GET_UPDATES_FOLDER}
+mkdir -p ${HEARTBEAT_FOLDER}
+
+touch ${REGISTRATION_FOLDER}/${DEVICE_ID}_register.out
+touch ${REGISTRATION_FOLDER}/${DEVICE_ID}_register.err 
+touch ${GET_UPDATES_FOLDER}/${DEVICE_ID}_get_updates.err
+touch ${GET_UPDATES_FOLDER}/${DEVICE_ID}_get_updates.out
+touch ${HEARTBEAT_FOLDER}/${DEVICE_ID}_heartbeat.out
+touch ${HEARTBEAT_FOLDER}/${DEVICE_ID}_heartbeat.err

@@ -57,7 +57,7 @@ while getopts "c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v" option; do
         l) LOG_LEVEL=${OPTARG};;
         m) MUST_GATHER=${OPTARG};;
         n) TEST_ID=${OPTARG};;
-        o) edgeworkloadMENT_CONCURRENCY=${OPTARG};;
+        o) EDGEWORKLOAD_CONCURRENCY=${OPTARG};;
         p) EDGE_DEPLOYMENTS_PER_DEVICE=${OPTARG};;
         q) NAMESPACES_COUNT=${OPTARG};;
         r) RAMP_UP_TIME=${OPTARG};;
@@ -86,9 +86,9 @@ if [[ -z $REPLICAS ]]; then
     echo "INFO: Number of replicas not specified. Using default value: $REPLICAS"
 fi
 
-if [[ -z $edgeworkloadMENT_CONCURRENCY ]]; then
-    edgeworkloadMENT_CONCURRENCY=5
-    echo "INFO: Edge deployment concurrency not specified. Using default value: $edgeworkloadMENT_CONCURRENCY"
+if [[ -z $EDGEWORKLOAD_CONCURRENCY ]]; then
+    EDGEWORKLOAD_CONCURRENCY=5
+    echo "INFO: Edge deployment concurrency not specified. Using default value: $EDGEWORKLOAD_CONCURRENCY"
 fi
 
 if [[ -z $TEST_ID ]]; then
@@ -229,7 +229,10 @@ echo "Before test: There are $edgedevices edge devices and $edgeworkload edge wo
 
 run_test()
 {
-echo "INFO: Running test"
+SCRIPT=$(readlink -f "$0")
+SCRIPT_DIR=$(dirname "$SCRIPT")
+
+echo "INFO: Running test located in ${SCRIPT_DIR}"
 JVM_ARGS="-Xms4g -Xmx64g -Xss250k -XX:MaxMetaspaceSize=1g" $JMETER_HOME/bin/jmeter.sh -n -l $test_dir/results.csv \
     -f -e -o $test_dir/results/ -t $TEST_PLAN \
     -JEDGE_DEVICES_COUNT=$EDGE_DEVICES_COUNT \
@@ -241,7 +244,11 @@ JVM_ARGS="-Xms4g -Xmx64g -Xss250k -XX:MaxMetaspaceSize=1g" $JMETER_HOME/bin/jmet
     -JHTTP_SERVER=$HTTP_SERVER \
     -JHTTP_SERVER_PORT=$HTTP_SERVER_PORT \
     -JTEST_DIR=$test_dir \
-    -JSCRIPTS_DIR=`pwd` \
+    -JSCRIPTS_DIR=$SCRIPT_DIR \
+    -JCERTS_FOLDER=$CERTS_FOLDER \
+    -JREGISTRATION_FOLDER="${logs_dir}/registration" \
+    -JGET_UPDATES_FOLDER="${logs_dir}/get_updates" \
+    -JHEARTBEAT_FOLDER="${logs_dir}/heartbeat" \
     -JNAMESPACES_COUNT=$NAMESPACES_COUNT|& tee -a $test_dir/summary.txt
 }
 
@@ -299,7 +306,7 @@ kubectl patch cm -n flotta flotta-operator-manager-config --type merge --patch '
     "LOG_LEVEL": "'$LOG_LEVEL'",
     "OBC_AUTO_CREATE": "false",
      "MAX_CONCURRENT_RECONCILES": "'$MAX_CONCURRENT_RECONCILES'",
-     "edgeworkloadMENT_CONCURRENCY": "'$edgeworkloadMENT_CONCURRENCY'",
+     "EDGEWORKLOAD_CONCURRENCY": "'$EDGEWORKLOAD_CONCURRENCY'",
      "NAMESPACES_COUNT": "'$NAMESPACES_COUNT'"}
 }'
 
@@ -394,15 +401,16 @@ kubectl scale --replicas=$REPLICAS deployment flotta-operator-controller-manager
 kubectl wait --for=condition=available -n flotta deployment.apps/flotta-operator-controller-manager
 
 count=0
+export CERTS_FOLDER="${test_dir}/certs"
 DEVICE_ID='default'
 DEVICE_ID=$DEVICE_ID sh generate_certs.sh 
 echo "Waiting for HTTP server to be ready at $HTTP_SERVER"
 until [[ count -gt 100 ]]
 do
   curl \
-    --cacert ${test_dir}/${DEVICE_ID}_ca.pem \
-    --cert ${test_dir}/${DEVICE_ID}_cert.pem \
-    --key ${test_dir}/${DEVICE_ID}_key.pem -v \
+    --cacert ${CERTS_FOLDER}/${DEVICE_ID}_ca.pem \
+    --cert ${CERTS_FOLDER}/${DEVICE_ID}_cert.pem \
+    --key ${CERTS_FOLDER}/${DEVICE_ID}_key.pem -v \
     -m 5 -s -i \
     https://${HTTP_SERVER}:${HTTP_SERVER_PORT} | grep 404 > /dev/null
   if [ "$?" == "1" ]; then
@@ -430,35 +438,11 @@ kubectl top pods -n flotta --use-protocol-buffers
 } >> $test_dir/summary.txt
 }
 
-setup()
-{
-  sysctl -w net.core.somaxconn=50000
-  sysctl -w net.core.netdev_max_backlog=50000
-  sysctl -w net.ipv4.tcp_max_syn_backlog=50000 
-  sysctl -w net.ipv4.ip_local_port_range="15000 65000"
-  sysctl -w net.ipv4.tcp_fin_timeout=10
-  sysctl -w vm.max_map_count=999999
-  sysctl -w kernel.threads-max=4113992
 
-  if [ -z $(grep "* soft nofile 999999" "/etc/security/limits.conf") ]; then
-      cat "* soft nofile 999999" >> /etc/security/limits.conf
-  fi
-
-  if [ -z $(grep "* hard nofile 999999" "/etc/security/limits.conf") ]; then
-      cat "* hard nofile 999999" >> /etc/security/limits.conf
-  fi
-
-
-  ifconfig br-ex txqueuelen 5000
-  ifconfig cni-podman0 txqueuelen 5000
-  ifconfig ens3 txqueuelen 5000
-  ifconfig ens4 txqueuelen 5000
-  ifconfig ovn-k8s-mp0 txqueuelen 5000
-}
 
 parse_args "$@"
 log_run_details
-setup
+sh setup
 patch_flotta_operator
 log_pods_details
 run_test

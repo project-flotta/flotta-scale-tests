@@ -10,7 +10,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="HTTP_SERVER" elementType="Argument">
             <stringProp name="Argument.name">HTTP_SERVER</stringProp>
-            <stringProp name="Argument.value">localhost:8084</stringProp>
+            <stringProp name="Argument.value">localhost:8083</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -30,9 +30,13 @@
           <stringProp name="-671461751">DEPLOYMENTS_PER_DEVICE</stringProp>
           <stringProp name="-362882240">TEST_DIR</stringProp>
           <stringProp name="1854363798">SCRIPTS_DIR</stringProp>
+          <stringProp name="799845044">REGISTRATION_FOLDER</stringProp>
+          <stringProp name="799845045">GET_UPDATES_FOLDER</stringProp>
+          <stringProp name="799845046">HEARTBEAT_FOLDER</stringProp>
+          <stringProp name="799845047">CERTS_FOLDER</stringProp>
         </collectionProp>
         <collectionProp name="UserParameters.thread_values">
-          <collectionProp name="1739702342">
+          <collectionProp name="277521010">
             <stringProp name="-2075675906">${__P(HTTP_SERVER,flotta-operator-controller-manager-flotta-operator-system.apps.mycluster.redhat.com)}</stringProp>
             <stringProp name="1153133027">${__P(HTTP_SERVER_PORT,80)}</stringProp>
             <stringProp name="-1649297033">${__P(OCP_API_SERVER,api.mycluster.redhat.com)}</stringProp>
@@ -43,6 +47,10 @@
             <stringProp name="-1692776171">${__P(DEPLOYMENTS_PER_DEVICE,5)}</stringProp>
             <stringProp name="-110055682">${__P(TEST_DIR,test_dir_delete_me)}</stringProp>
             <stringProp name="2079559965">${__P(SCRIPTS_DIR,.)}</stringProp>
+            <stringProp name="2048852853">${__P(REGISTRATION_FOLDER,./registration)}</stringProp>
+            <stringProp name="2048852854">${__P(GET_UPDATES_FOLDER,./get_updates)}</stringProp>
+            <stringProp name="2048852855">${__P(HEARTBEAT_FOLDER,./heartbeat)}</stringProp>
+            <stringProp name="2048852856">${__P(CERTS_FOLDER,./certs)}</stringProp>
           </collectionProp>
         </collectionProp>
         <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -81,7 +89,28 @@
             </collectionProp>
           </elementProp>
           <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="REGISTRATION_FOLDER" elementType="Argument">
+                <stringProp name="Argument.name">REGISTRATION_FOLDER</stringProp>
+                <stringProp name="Argument.value">${REGISTRATION_FOLDER}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="GET_UPDATES_FOLDER" elementType="Argument">
+                <stringProp name="Argument.name">GET_UPDATES_FOLDER</stringProp>
+                <stringProp name="Argument.value">${GET_UPDATES_FOLDER}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="HEARTBEAT_FOLDER" elementType="Argument">
+                <stringProp name="Argument.name">HEARTBEAT_FOLDER</stringProp>
+                <stringProp name="Argument.value">${HEARTBEAT_FOLDER}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="DEVICE_ID" elementType="Argument">
+                <stringProp name="Argument.name">DEVICE_ID</stringProp>
+                <stringProp name="Argument.value">${DEVICE_ID}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
           </elementProp>
           <stringProp name="SystemSampler.directory"></stringProp>
         </SystemSampler>
@@ -161,11 +190,21 @@
                   <stringProp name="Argument.value">{    &quot;content&quot;: {        &quot;hardware&quot;: {            &quot;cpu&quot;: {                &quot;architecture&quot;: &quot;x86_64&quot;,                &quot;flags&quot;: [],                &quot;model_name&quot;: &quot;Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz&quot;            },            &quot;hostname&quot;: &quot;${HOSTNAME}&quot;,            &quot;system_vendor&quot;: {                &quot;manufacturer&quot;: &quot;LENOVO&quot;,                &quot;product_name&quot;: &quot;${PRODUCT_NAME}&quot;,                &quot;serial_number&quot;: &quot;${SERIAL_NAME}&quot;            }        },        &quot;os_image_id&quot;: &quot;unknown&quot;    },    &quot;directive&quot;: &quot;registration&quot;,    &quot;message_id&quot;: &quot;${__UUID()}&quot;,    &quot;sent&quot;: &quot;2021-11-21T14:45:25.271+02:00&quot;,    &quot;type&quot;: &quot;data&quot;,    &quot;version&quot;: 1 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
+                <elementProp name="REGISTRATION_FOLDER" elementType="Argument">
+                  <stringProp name="Argument.name">REGISTRATION_FOLDER</stringProp>
+                  <stringProp name="Argument.value">${REGISTRATION_FOLDER}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="CERTS_FOLDER" elementType="Argument">
+                  <stringProp name="Argument.name">CERTS_FOLDER</stringProp>
+                  <stringProp name="Argument.value">${CERTS_FOLDER}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
               </collectionProp>
             </elementProp>
             <stringProp name="SystemSampler.directory"></stringProp>
-            <stringProp name="SystemSampler.stdout">${TEST_DIR}/${DEVICE_ID}_register.out</stringProp>
-            <stringProp name="SystemSampler.stderr">${TEST_DIR}/${DEVICE_ID}_register.err</stringProp>
+            <stringProp name="SystemSampler.stdout">${REGISTRATION_FOLDER}/${DEVICE_ID}_register.out</stringProp>
+            <stringProp name="SystemSampler.stderr">${REGISTRATION_FOLDER}/${DEVICE_ID}_register.err</stringProp>
           </SystemSampler>
           <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Device Registration HTTP Request" enabled="false">
@@ -485,11 +524,16 @@
                   <stringProp name="Argument.value">${HTTP_SERVER_PORT}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
+                <elementProp name="CERTS_FOLDER" elementType="Argument">
+                  <stringProp name="Argument.name">CERTS_FOLDER</stringProp>
+                  <stringProp name="Argument.value">${CERTS_FOLDER}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
               </collectionProp>
             </elementProp>
             <stringProp name="SystemSampler.directory"></stringProp>
-            <stringProp name="SystemSampler.stdout">${TEST_DIR}/${DEVICE_ID}_get_updates.out</stringProp>
-            <stringProp name="SystemSampler.stderr">${TEST_DIR}/${DEVICE_ID}_get_updates.err</stringProp>
+            <stringProp name="SystemSampler.stdout">${GET_UPDATES_FOLDER}/${DEVICE_ID}_get_updates.out</stringProp>
+            <stringProp name="SystemSampler.stderr">${GET_UPDATES_FOLDER}/${DEVICE_ID}_get_updates.err</stringProp>
           </SystemSampler>
           <hashTree/>
           <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Get Updates Constant Timer" enabled="true">
@@ -543,11 +587,16 @@
                 <stringProp name="Argument.value">${HTTP_SERVER_PORT}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
+              <elementProp name="CERTS_FOLDER" elementType="Argument">
+                  <stringProp name="Argument.name">CERTS_FOLDER</stringProp>
+                  <stringProp name="Argument.value">${CERTS_FOLDER}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
             </collectionProp>
           </elementProp>
           <stringProp name="SystemSampler.directory"></stringProp>
-          <stringProp name="SystemSampler.stdout">${TEST_DIR}/${DEVICE_ID}_hearthbeat.out</stringProp>
-          <stringProp name="SystemSampler.stderr">${TEST_DIR}/${DEVICE_ID}_hearthbeat.err</stringProp>
+          <stringProp name="SystemSampler.stdout">${HEARTBEAT_FOLDER}/${DEVICE_ID}_heartbeat.out</stringProp>
+          <stringProp name="SystemSampler.stderr">${HEARTBEAT_FOLDER}/${DEVICE_ID}_heartbeat.err</stringProp>
         </SystemSampler>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Send Heartbeats HTTP Request" enabled="false">
