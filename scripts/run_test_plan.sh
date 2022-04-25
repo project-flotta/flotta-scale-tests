@@ -400,6 +400,25 @@ fi
 kubectl scale --replicas=$REPLICAS deployment flotta-operator-controller-manager -n flotta
 kubectl wait --for=condition=available -n flotta deployment.apps/flotta-operator-controller-manager
 
+PORT_FORWARDING_ALREADY_TAKEN=$(ps -eaf | grep "kubectl port-forward service/flotta-operator-controller-manager -n flotta $HTTP_SERVER_PORT --address 0.0.0.0" | wc -l)
+
+if [ $PORT_FORWARDING_ALREADY_TAKEN -gt 2 ]; then
+  echo $'\n'"Target port ${HTTP_SERVER_PORT} for port-forward is already taken by another port-forward process"
+  exit 1
+fi
+
+echo "Forwarding port to 127.0.0.1"
+kubectl port-forward service/flotta-operator-controller-manager -n flotta ${HTTP_SERVER_PORT} --address 0.0.0.0 &
+export PORT_FORWARD_PID=$!
+ps $PORT_FORWARD_PID
+until [[ $? -eq 0 ]]
+do
+  sleep 5
+  echo "Forwarding port to 127.0.0.1"
+  kubectl port-forward service/flotta-operator-controller-manager -n flotta ${HTTP_SERVER_PORT} --address 0.0.0.0 &
+  export PORT_FORWARD_PID=$!
+  ps $PORT_FORWARD_PID
+done
 count=0
 export CERTS_FOLDER="${test_dir}/certs"
 DEVICE_ID='default'
@@ -448,3 +467,4 @@ log_pods_details
 run_test
 log_pods_details
 collect_results
+kill $PORT_FORWARD_PID
