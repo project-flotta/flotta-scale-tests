@@ -160,8 +160,13 @@ if [[ -z $HTTP_SERVER ]]; then
 fi
 
 if [[ -z $HTTP_SERVER_PORT ]]; then
-    echo "HTTP port is not specified. Using default value: 80"
-    HTTP_SERVER_PORT=80
+    echo "HTTP port is not specified. Using default value: 3143"
+    HTTP_SERVER_PORT=3143
+fi
+
+if [[ $HTTP_SERVER_PORT -lt 30000 ]]  || [[ $HTTP_SERVER_PORT -gt 32767 ]]; then
+    echo "HTTP_SERVER_PORT shall be between 30000 - 32767 to allow NodePort service, given: $HTTP_SERVER_PORT"
+    exit -1
 fi
 
 if [[ -z $JMETER_HOME ]]; then
@@ -397,28 +402,11 @@ if [[ -n $EXPOSE_PPROF ]]; then
   }'
 fi
 
+kubectl patch service flotta-operator-controller-manager -n flotta --type='json' -p "[{\"op\":\"replace\",\"path\":\"/spec/type\",\"value\":\"NodePort\"},{\"op\":\"replace\",\"path\":\"/spec/ports/0/nodePort\",\"value\":${HTTP_SERVER_PORT}}]"
+
 kubectl scale --replicas=$REPLICAS deployment flotta-operator-controller-manager -n flotta
 kubectl wait --for=condition=available -n flotta deployment.apps/flotta-operator-controller-manager
 
-PORT_FORWARDING_ALREADY_TAKEN=$(ps -eaf | grep "kubectl port-forward service/flotta-operator-controller-manager -n flotta $HTTP_SERVER_PORT --address 0.0.0.0" | wc -l)
-
-if [ $PORT_FORWARDING_ALREADY_TAKEN -gt 2 ]; then
-  echo $'\n'"Target port ${HTTP_SERVER_PORT} for port-forward is already taken by another port-forward process"
-  exit 1
-fi
-
-echo "Forwarding port to 127.0.0.1"
-kubectl port-forward service/flotta-operator-controller-manager -n flotta ${HTTP_SERVER_PORT} --address 0.0.0.0 &
-export PORT_FORWARD_PID=$!
-ps $PORT_FORWARD_PID
-until [[ $? -eq 0 ]]
-do
-  sleep 5
-  echo "Forwarding port to 127.0.0.1"
-  kubectl port-forward service/flotta-operator-controller-manager -n flotta ${HTTP_SERVER_PORT} --address 0.0.0.0 &
-  export PORT_FORWARD_PID=$!
-  ps $PORT_FORWARD_PID
-done
 count=0
 export CERTS_FOLDER="${test_dir}/certs"
 DEVICE_ID='default'
@@ -467,4 +455,3 @@ log_pods_details
 run_test
 log_pods_details
 collect_results
-kill $PORT_FORWARD_PID
