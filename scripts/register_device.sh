@@ -33,7 +33,7 @@ curl \
   -o ${REGISTRATION_FOLDER}/${DEVICE_ID}_response.json \
   https://${HTTP_SERVER}:${HTTP_SERVER_PORT}/api/flotta-management/v1/data/${DEVICE_ID}/out 
 if [ $? -ne 0 ]; then
- echo "Error when sending registration request, see  ${REGISTRATION_FOLDER_dir}/${DEVICE_ID}_register.out"
+ echo "Error when sending registration request, see  ${REGISTRATION_FOLDER}/${DEVICE_ID}_register.out"
  exit -1
 fi
 
