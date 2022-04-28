@@ -251,9 +251,9 @@ JVM_ARGS="-Xms4g -Xmx64g -Xss250k -XX:MaxMetaspaceSize=1g" $JMETER_HOME/bin/jmet
     -JTEST_DIR=$test_dir \
     -JSCRIPTS_DIR=$SCRIPT_DIR \
     -JCERTS_FOLDER=$CERTS_FOLDER \
-    -JREGISTRATION_FOLDER="${logs_dir}/registration" \
-    -JGET_UPDATES_FOLDER="${logs_dir}/get_updates" \
-    -JHEARTBEAT_FOLDER="${logs_dir}/heartbeat" \
+    -JREGISTRATION_FOLDER="${SCRIPT_DIR}/test-run-${TEST_ID}/logs/registration" \
+    -JGET_UPDATES_FOLDER="${SCRIPT_DIR}/test-run-${TEST_ID}/logs/get_updates" \
+    -JHEARTBEAT_FOLDER="${SCRIPT_DIR}/test-run-${TEST_ID}/logs/heartbeat" \
     -JNAMESPACES_COUNT=$NAMESPACES_COUNT|& tee -a $test_dir/summary.txt
 }
 
@@ -449,7 +449,7 @@ kubectl top pods -n flotta --use-protocol-buffers
 
 parse_args "$@"
 log_run_details
-sh setup
+sh setup.sh
 patch_flotta_operator
 log_pods_details
 run_test
